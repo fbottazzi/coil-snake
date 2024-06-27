@@ -1,3 +1,5 @@
+- Add build folder and send the objects and executables there
+
 - Re-do the milestones activity and send it
 
 - Write a makefile and command(s) in tasks.json to build the whole thing
