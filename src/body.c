@@ -69,16 +69,16 @@ void update(part_t* pPart, int newDir)
     switch (newDir)
     {
     case N:
-        (pPart->coords).y+=1;
+        (pPart->coords).y+=1;//goes up
         break;
     case S:
-        (pPart->coords).y-=1;
+        (pPart->coords).y-=1;//goes down
         break;
     case E:
-        (pPart->coords).y+=1;
+        (pPart->coords).y+=1;//goes right 
         break;
     case W:
-        (pPart->coords).y-=1;
+        (pPart->coords).y-=1;// goes left
         break;
     
     }

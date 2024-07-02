@@ -1,6 +1,6 @@
 enum direccion{
     N=1,S=-1,E=2,W=-2
-};
+};//North, south, east, west; up, down,right, left
 
 typedef struct{
     int x;
