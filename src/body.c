@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "body.h"
+#include "boardSize.h"
 
 /*int main(void)        TESTING
 {
@@ -33,8 +34,8 @@
 void initSnake(part_t* part)
 {
     part->orient=1;
-    (part->coords).x=5;//taking into account a matrix of 10x10
-    (part->coords).y=5;
+    (part->coords).x=BC_X;//taking into account a matrix of 10x10
+    (part->coords).y=BC_Y;
     part->symbol ='^';
     part->p2next=NULL;   
 }
