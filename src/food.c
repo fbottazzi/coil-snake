@@ -1,4 +1,4 @@
-#include <stdlib.h>//must test, Must create func freefood
+#include <stdlib.h>//must test
 #include <stdio.h>
 #include <time.h>
 #include "body.h"
@@ -38,7 +38,7 @@ food_t* newFood(part_t* phead, int snakeSize)
     }
     for(i=0;i<snakeSize*sizeof(coords_t);i++)//frees all the bytes used in the array of coordinates
     {
-        free(arrCoords+i);
+        free((char*)arrCoords+i);
     }
     
     return p2Food;//remember to free when used, done in foodEaten
@@ -51,8 +51,10 @@ void foodEaten(food_t* p2Food, int snakeSize)
     int i;
     for(i=0;i<sizeof(food_t);i++)
     {
-        free(p2Food+i);
+        free(((char*)p2Food)+i);
     }
     return;
 }
+
+
 
