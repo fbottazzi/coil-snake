@@ -1,4 +1,4 @@
-#include <stdio.h> //just testing modify as you please
+#include <stdio.h> //just testing modify as you wish
 #include "coords.h"
 #include "body.h"
 #include  "food.h"
@@ -13,10 +13,12 @@ int main(void)
     printf("%c\n",head.symbol);
     int snakeLen =1;
     food_t* foodItem =  newFood(pHead,snakeLen);
-    printf("%p\n",foodItem);
+
     printf("%d, %d\n",foodItem->x,foodItem->y);
     printf("%c\n",foodItem->symbol);
+
     snakeLen= foodEaten(foodItem,snakeLen);
+    
     newNode(pHead);
 
     /*printf("%d\n",(head.p2next)->orient);
