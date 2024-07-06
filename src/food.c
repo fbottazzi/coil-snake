@@ -28,11 +28,12 @@ food_t* newFood(part_t* phead, int snakeSize)
     p2Food->symbol='+';
     srand(time(NULL));
 
-
-    for(i=0;i<(snakeSize-1);)
+    
+    for(i=0;i<(snakeSize);)
     {
         p2Food->x=(rand()%B_COL);//i give a random value to the coordinates
         p2Food->y=(rand()%B_ROW);
+        
         
         for(i=0;i<snakeSize&&(p2Food->x!=(arrCoords+i)->x||p2Food->y!=(arrCoords+i)->y);i++)
         {}//this for searches if the food spawned inside the snake
