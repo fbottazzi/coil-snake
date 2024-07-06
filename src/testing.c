@@ -17,5 +17,21 @@ int main(void)
     printf("%d, %d\n",foodItem->x,foodItem->y);
     printf("%c\n",foodItem->symbol);
     snakeLen= foodEaten(foodItem,snakeLen);
+    newNode(pHead);
+
+    /*printf("%d\n",(head.p2next)->orient);
+    printf("%d, %d\n",(head.p2next)->x,(head.p2next)->y);
+    printf("%c\n",(head.p2next)->symbol);*/
+
+    update(pHead,E);
     printf("%d\n",snakeLen);
+
+    printf("%d\n",head.orient);
+    printf("%d, %d\n",head.x,head.y);
+    printf("%c\n",head.symbol);
+
+
+    printf("%d\n",(head.p2next)->orient);
+    printf("%d, %d\n",(head.p2next)->x,(head.p2next)->y);
+    printf("%c\n",(head.p2next)->symbol);
 }

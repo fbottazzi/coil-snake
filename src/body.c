@@ -58,20 +58,20 @@ void newNode(part_t* pPart)
     switch (pPart->orient)
     {
     case N:
-        pPart->y=(pPart->y-1);//set it one tile behind so when it updates it goes to the last one
-        pPart->x=(pPart->x);//i dont care about direction since i only need it to give it to the next one 
+        (pPart->p2next)->y=(pPart->y)-1;//set it one tile behind so when it updates it goes to the last one
+        (pPart->p2next)->x=(pPart->x);//i dont care about direction since i only need it to give it to the next one 
         break;
     case S:
-        pPart->y=(pPart->y+1);
-        pPart->x=(pPart->x);
+        (pPart->p2next)->y=(pPart->y)+1;
+        (pPart->p2next)->x=(pPart->x);
         break;
     case E:
-        pPart->y=(pPart->y);
-        pPart->x=(pPart->x)-1; 
+        (pPart->p2next)->y=(pPart->y);
+        (pPart->p2next)->x=(pPart->x)-1; 
         break;
     case W:
-        pPart->y=(pPart->y);
-        pPart->x=(pPart->x)+1;
+        (pPart->p2next)->y=(pPart->y);
+        (pPart->p2next)->x=(pPart->x)+1;
         break;
     
     }
@@ -97,10 +97,10 @@ void update(part_t* pPart, int newDir)
         pPart->y-=1;//goes down
         break;
     case E:
-        pPart->y+=1;//goes right 
+        pPart->x+=1;//goes right 
         break;
     case W:
-        pPart->y-=1;// goes left
+        pPart->x-=1;// goes left
         break;
     
     }
