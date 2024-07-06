@@ -1,11 +1,10 @@
-#include <stdlib.h>//must test
-#include <stdio.h>
-#include <time.h>
+#include "coords.h"
 #include "body.h"
+#include <stdlib.h>//must test
+#include <time.h>
+
 #include "boardSize.h"
 #include "food.h"
-
-
 
 
 

@@ -1,3 +1,4 @@
+
 typedef struct{
     coords_t coords;
     char symbol;

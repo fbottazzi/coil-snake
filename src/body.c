@@ -1,3 +1,4 @@
+#include "coords.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include "body.h"
