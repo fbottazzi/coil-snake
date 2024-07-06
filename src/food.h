@@ -6,4 +6,4 @@ typedef struct{
 
 
 food_t* newFood(part_t* phead, int snakeSize);
-void foodEaten(food_t* p2Food, int snakeSize);
+int foodEaten(food_t* p2Food, int snakeSize);

@@ -11,8 +11,11 @@ int main(void)
     printf("%d\n",head.orient);
     printf("%d, %d\n",head.coords.x,head.coords.y);
     printf("%c\n",head.symbol);
-    food_t* foodItem =  newFood(pHead,1);
-    printf("%d, %d\n",(foodItem->coords).x,(foodItem->coords).y);
+    int snakeLen =1;
+    food_t* foodItem =  newFood(pHead,snakeLen);
+    printf("%p\n",foodItem);
+    //printf("%d, %d\n",(foodItem->coords).x,(foodItem->coords).y);
     printf("%c\n",foodItem->symbol);
-    foodEaten(foodItem,1);
+    snakeLen= foodEaten(foodItem,snakeLen);
+    printf("%d\n",snakeLen);
 }

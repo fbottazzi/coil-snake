@@ -2,6 +2,7 @@
 #include "body.h"
 #include <stdlib.h>//must test
 #include <time.h>
+#include<stdio.h>
 
 #include "boardSize.h"
 #include "food.h"
@@ -30,8 +31,9 @@ food_t* newFood(part_t* phead, int snakeSize)
 
     for(i=0;i<(snakeSize-1);)
     {
-        (p2Food->coords).x=rand()%B_COL;//i give a random value to teh coordinates
-        (p2Food->coords).y=rand()%B_ROW;
+        (p2Food->coords).x=(rand()%10);//i give a random value to the coordinates
+        (p2Food->coords).y=(rand()%B_ROW);
+        
         for(i=0;i<snakeSize&&((p2Food->coords).x!=(arrCoords+i)->x||(p2Food->coords).y!=(arrCoords+i)->y);i++)
         {}//this for searches if the food spawned inside the snake
     }
@@ -43,16 +45,16 @@ food_t* newFood(part_t* phead, int snakeSize)
     return p2Food;//remember to free when used, done in foodEaten
 }
 
-void foodEaten(food_t* p2Food, int snakeSize)
+int foodEaten(food_t* p2Food, int snakeSize)
 {
-    if(p2Food==NULL)    return;
+    if(p2Food==NULL)    return (snakeSize-1);
     snakeSize++;
     int i;
     for(i=0;i<sizeof(food_t);i++)
     {
         free(((char*)p2Food)+i);
     }
-    return;
+    return snakeSize;
 }
 
 
