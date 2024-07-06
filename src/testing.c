@@ -9,12 +9,12 @@ int main(void)
     part_t* pHead=&head;
     initSnake(pHead);
     printf("%d\n",head.orient);
-    printf("%d, %d\n",head.coords.x,head.coords.y);
+    printf("%d, %d\n",head.x,head.y);
     printf("%c\n",head.symbol);
     int snakeLen =1;
     food_t* foodItem =  newFood(pHead,snakeLen);
     printf("%p\n",foodItem);
-    //printf("%d, %d\n",(foodItem->coords).x,(foodItem->coords).y);
+    printf("%d, %d\n",foodItem->x,foodItem->y);
     printf("%c\n",foodItem->symbol);
     snakeLen= foodEaten(foodItem,snakeLen);
     printf("%d\n",snakeLen);

@@ -35,8 +35,8 @@
 void initSnake(part_t* part)
 {
     part->orient=1;
-    (part->coords).x=BC_X;//taking into account a matrix of 10x10
-    (part->coords).y=BC_Y;
+    part->x=BC_X;//taking into account a matrix of 10x10
+    part->y=BC_Y;
     part->symbol ='^';
     part->p2next=NULL;   
 }
@@ -55,6 +55,26 @@ void newNode(part_t* pPart)
     }
     pNew->symbol='*';
     pNew->p2next=NULL;
+    switch (pPart->orient)
+    {
+    case N:
+        pPart->y=(pPart->y-1);//set it one tile behind so when it updates it goes to the last one
+        pPart->x=(pPart->x);//i dont care about direction since i only need it to give it to the next one 
+        break;
+    case S:
+        pPart->y=(pPart->y+1);
+        pPart->x=(pPart->x);
+        break;
+    case E:
+        pPart->y=(pPart->y);
+        pPart->x=(pPart->x)-1; 
+        break;
+    case W:
+        pPart->y=(pPart->y);
+        pPart->x=(pPart->x)+1;
+        break;
+    
+    }
     return ;
 }
 
@@ -66,20 +86,21 @@ void update(part_t* pPart, int newDir)
     }
     int oldDir = pPart->orient;
     pPart->orient=newDir;
-
+    
+    
     switch (newDir)
     {
     case N:
-        (pPart->coords).y+=1;//goes up
+        pPart->y+=1;//goes up
         break;
     case S:
-        (pPart->coords).y-=1;//goes down
+        pPart->y-=1;//goes down
         break;
     case E:
-        (pPart->coords).y+=1;//goes right 
+        pPart->y+=1;//goes right 
         break;
     case W:
-        (pPart->coords).y-=1;// goes left
+        pPart->y-=1;// goes left
         break;
     
     }

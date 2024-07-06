@@ -7,7 +7,8 @@ enum direccion{
 
 typedef struct PART{
     int orient;
-    coords_t coords;
+    int x;
+    int y;
     char symbol;
     struct PART* p2next;
 }part_t;

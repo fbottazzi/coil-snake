@@ -1,6 +1,7 @@
 
 typedef struct{
-    coords_t coords;
+    int x;
+    int y;
     char symbol;
 }food_t;
 

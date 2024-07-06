@@ -21,8 +21,8 @@ food_t* newFood(part_t* phead, int snakeSize)
     if(arrCoords==NULL)     return NULL;
     for(i=0;aux->p2next!=NULL;i++)
     {
-        (arrCoords+i)->x=(aux->coords).x;
-        (arrCoords+i)->y=(aux->coords).y;
+        (arrCoords+i)->x=aux->x;
+        (arrCoords+i)->y=aux->y;
         aux=aux->p2next;
     }
     p2Food->symbol='+';
@@ -31,10 +31,10 @@ food_t* newFood(part_t* phead, int snakeSize)
 
     for(i=0;i<(snakeSize-1);)
     {
-        (p2Food->coords).x=(rand()%10);//i give a random value to the coordinates
-        (p2Food->coords).y=(rand()%B_ROW);
+        p2Food->x=(rand()%B_COL);//i give a random value to the coordinates
+        p2Food->y=(rand()%B_ROW);
         
-        for(i=0;i<snakeSize&&((p2Food->coords).x!=(arrCoords+i)->x||(p2Food->coords).y!=(arrCoords+i)->y);i++)
+        for(i=0;i<snakeSize&&(p2Food->x!=(arrCoords+i)->x||p2Food->y!=(arrCoords+i)->y);i++)
         {}//this for searches if the food spawned inside the snake
     }
     for(i=0;i<snakeSize*sizeof(coords_t);i++)//frees all the bytes used in the array of coordinates
