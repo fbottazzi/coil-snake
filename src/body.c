@@ -4,8 +4,9 @@
 #include "body.h"
 #include "boardSize.h"
 
-/*int main(void)        TESTING
+int main(void)   // TESTING
 {
+    /*
     part_t head;
     part_t* p2head=&head;
     initSnake(p2head);
@@ -25,12 +26,12 @@
     printf("%d\n",head.orient);
     printf("%d, %d\n",head.coords.x,head.coords.y);
     printf("%c\n",head.symbol);
-
+    */
     
 
 
 
-}*/
+}
 
 void initSnake(part_t* part)
 {
@@ -51,7 +52,7 @@ void newNode(part_t* pPart)
     part_t* pNew=pPart->p2next;
     if(pNew==NULL)
     {
-        return NULL;
+        return;
     }
     pNew->symbol='*';
     pNew->p2next=NULL;
@@ -75,7 +76,7 @@ void newNode(part_t* pPart)
         break;
     
     }
-    return ;
+    return;
 }
 
 void update(part_t* pPart, int newDir)
