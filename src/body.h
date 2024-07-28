@@ -1,19 +1,27 @@
-enum direccion {
-    N=1,S=-1,E=2,W=-2
-}; //North, south, east, west; up, down,right, left
+// Structure definitions to save snake's body
 
+typedef enum {
+    N = 0, S , E , W
+} direction_t;
 
 
 
 typedef struct PART {
-    int orient;
+    direction_t orient;
     int x;
     int y;
-    char symbol;
     struct PART* p2next;
 } part_t;
 
+typedef struct {
+    part_t* head;
+    part_t* tail;
+    int size;
+} snake_t;
 
-void initSnake(part_t* part);
+int initSnake(snake_t* snake, int init_x, int init_y, direction_t init_orient);
+void freeAll(part_t* phead);
+int isInsideSnake(int x, int y, const part_t* phead);
+
 void newNode(part_t* pPart);
 void update(part_t* pPart, int newDir);

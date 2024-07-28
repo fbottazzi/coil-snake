@@ -1,46 +1,83 @@
 #include "coords.h"
-#include <stdio.h>
 #include <stdlib.h>
 #include "body.h"
 #include "boardSize.h"
 
-int main(void)   // TESTING
+#define INIT_LENGTH 3
+
+int initSnake(snake_t* snake, int init_x, int init_y, direction_t init_orient)
 {
-    /*
-    part_t head;
-    part_t* p2head=&head;
-    initSnake(p2head);
-    printf("%d\n",head.orient);
-    printf("%d, %d\n",head.coords.x,head.coords.y);
-    printf("%c\n",head.symbol);
+    // Counters for the position of each part and the numbers of parts
+    int i, x = init_x, y = init_y;
+    part_t* part;
+    snake->head = malloc(sizeof(part_t));
     
-    newNode(p2head);
+    // Give values to INIT_LENGTH-1 nodes (including the head), and reserving memory for the next node
+    for(i = 0, part = snake->head; i < INIT_LENGTH-1 && part != NULL; i++) {
 
-    printf("%d\n",head.orient);
-    printf("%d, %d\n",head.coords.x,head.coords.y);
-    printf("%c\n",head.symbol);
-    printf("%p\n", (p2head->p2next));
+        // Give values to the current part
+        part->x = x;
+        part->y = y;
+        part->orient = init_orient;
+        part->p2next = malloc(sizeof(part_t));
 
-    update(p2head, -2);
-    
-    printf("%d\n",head.orient);
-    printf("%d, %d\n",head.coords.x,head.coords.y);
-    printf("%c\n",head.symbol);
-    */
-    
+        // Update values
+        part = part->p2next;
+        switch(init_orient) {
+            // Update (x, y) contrary to the value of init_orient
+            // because we start from the head
+            case N:
+                y++;
+                break;
+            case S:
+                y--;
+                break;
+            case E:
+                x--;
+                break;
+            case W:
+                x++;
+                break;
+        }
+    }
+    // validate the memory allocation
+    snake->size = i+1;
+    if(part == NULL)    return -1;
 
+    // Give values to the tail
+    part->x = x;
+    part->y = y;
+    part->orient = init_orient;
+    part->p2next = NULL;
 
+    snake->tail = part;
+    return 0;
+}
+
+void freeAll(part_t* phead)
+{
+    if(phead == NULL)   return;
+
+    part_t *current = phead, *next = phead->p2next;
+    while(next != NULL) { // goes through the list until current is the last element
+        free(current);
+        current = next;
+        next = current->p2next;
+    }
+    free(current);
 
 }
 
-void initSnake(part_t* part)
-{
-    part->orient=1;
-    part->x=BC_X;//taking into account a matrix of 10x10
-    part->y=BC_Y;
-    part->symbol ='^';
-    part->p2next=NULL;   
+int isInsideSnake(int x, int y, const part_t* phead) {
+    const part_t* ptr;
+    for(ptr = phead; ptr != NULL; ptr = ptr->p2next) {
+        if(ptr->x == x && ptr->y == y) return 1;
+    }
+
+    return 0;
 }
+
+/* Falta retocar errores acá
 
 void newNode(part_t* pPart)
 {
@@ -108,18 +145,5 @@ void update(part_t* pPart, int newDir)
     return update((pPart->p2next), oldDir);
     
 }
-/* does not work, make it work..
-void freeAll(part_t* phead)
-{
-    int i;
-    part_t* aux=phead;
-    while(phead->p2next!=NULL)
-    {
-        aux=aux->p2next;
-    }
-    for(i=0;i<sizeof(part_t);i++)
-    {
-        free(aux);
-    }
-    
-}*/
+
+*/
