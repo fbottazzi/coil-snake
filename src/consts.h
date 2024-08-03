@@ -3,3 +3,5 @@
 
 #define BC_X 5 //centre X coordinate
 #define BC_Y 5 //centre Y coordinate
+
+#define HEAP_ERR (-1)

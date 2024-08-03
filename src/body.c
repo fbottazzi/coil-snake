@@ -1,56 +1,113 @@
-#include "coords.h"
 #include <stdlib.h>
+
+#include "coords.h"
 #include "body.h"
-#include "boardSize.h"
+#include "consts.h"
 
-#define INIT_LENGTH 3
-
-int initSnake(snake_t* snake, int init_x, int init_y, direction_t init_orient)
+int initSnake(snake_t* snake, int init_x, int init_y, direction_t init_orient, unsigned int init_length)
 {
-    // Counters for the position of each part and the numbers of parts
-    int i, x = init_x, y = init_y;
-    part_t* part;
-    snake->head = malloc(sizeof(part_t));
+    // Allocate memory
+    unsigned int i;
+    snake->head = snake->tail = malloc(sizeof(part_t));
+    if(snake->head == NULL)    return HEAP_ERR;
+
+    // Only initialize the head because it's the same node as the tail
+    snake->head->orient = init_orient;
+    snake->head->x = init_x;
+    snake->head->y = init_y;
+    snake->head-> p2prev = snake->head->p2next = NULL;
+
+    // Add init_length-1 nodes
+    snake->size = 1;
+    for (i = 0; i < init_length-1; i++)
+    {
+        if( newNode(snake) == HEAP_ERR )    return HEAP_ERR;
+    }
+    return 0;
+}
+
+int isInsideSnake(int x, int y, const part_t* phead) {
+    const part_t* ptr;
+    for(ptr = phead; ptr != NULL; ptr = ptr->p2next) {
+        if(ptr->x == x && ptr->y == y) return 1;
+    }
+
+    return 0;
+}
+
+void update(snake_t* snake, direction_t dir) {
+
+    if(-dir == snake->head->orient) return; // Can't turn 180deg
+
+    part_t *new_head = snake->tail, *new_tail = snake->tail->p2prev;
+    // Instead of freeing the tail and allocating a new head,
+    // I'll use the same space and interchange the values
+
+    // "Move" current tail node to the head by changing the pointers
+    new_tail->p2next = NULL;
+    snake->head->p2prev = new_head;
+    snake->head->orient = dir;
+
+    // Values of new_head
+    new_head->orient = dir;
+    new_head->p2next = snake->head;
+    new_head->p2prev = NULL;
     
-    // Give values to INIT_LENGTH-1 nodes (including the head), and reserving memory for the next node
-    for(i = 0, part = snake->head; i < INIT_LENGTH-1 && part != NULL; i++) {
-
-        // Give values to the current part
-        part->x = x;
-        part->y = y;
-        part->orient = init_orient;
-        part->p2next = malloc(sizeof(part_t));
-
-        // Update values
-        part = part->p2next;
-        switch(init_orient) {
-            // Update (x, y) contrary to the value of init_orient
-            // because we start from the head
+    // New position
+    new_head->x = snake->head->x;
+    new_head->y = snake->head->y;
+    switch(dir) {
             case N:
-                y++;
+                (new_head->y)--;
                 break;
             case S:
-                y--;
+                (new_head->y)++;
                 break;
             case E:
-                x--;
+                (new_head->x)++;
                 break;
             case W:
-                x++;
+                (new_head->x)--;
                 break;
-        }
     }
-    // validate the memory allocation
-    snake->size = i+1;
-    if(part == NULL)    return -1;
 
-    // Give values to the tail
-    part->x = x;
-    part->y = y;
-    part->orient = init_orient;
-    part->p2next = NULL;
+    snake->head = new_head;
+    snake->tail = new_tail;
 
-    snake->tail = part;
+}
+
+int newNode(snake_t* snake) {
+    // Memory allocation
+    part_t* new_tail = malloc(sizeof(part_t));
+    if(new_tail == NULL) return HEAP_ERR;
+
+    //Assigning new values
+    snake->tail->p2next = new_tail;
+    
+    new_tail->orient = snake->tail->orient;
+    new_tail->p2prev = snake->tail;
+    new_tail->p2next = NULL;
+
+    // Assigning position to one forward of the current tail position
+    new_tail->x = snake->tail->x;
+    new_tail->y = snake->tail->y;
+    switch(new_tail->orient) {
+        case N:
+            (new_tail->y)++;
+            break;
+        case S:
+            (new_tail->y)--;
+            break;
+        case E:
+            (new_tail->x)--;
+            break;
+        case W:
+            (new_tail->x)++;
+            break;
+    }
+
+    snake->tail = new_tail;
+    (snake->size)++;
     return 0;
 }
 
@@ -67,83 +124,3 @@ void freeAll(part_t* phead)
     free(current);
 
 }
-
-int isInsideSnake(int x, int y, const part_t* phead) {
-    const part_t* ptr;
-    for(ptr = phead; ptr != NULL; ptr = ptr->p2next) {
-        if(ptr->x == x && ptr->y == y) return 1;
-    }
-
-    return 0;
-}
-
-/* Falta retocar errores acá
-
-void newNode(part_t* pPart)
-{
-    while(pPart->p2next!=NULL)
-    {
-        pPart=pPart->p2next;
-    }
-    pPart->p2next=malloc(sizeof(*pPart));//remember to free malloc
-    part_t* pNew=pPart->p2next;
-    if(pNew==NULL)
-    {
-        return;
-    }
-    pNew->symbol='*';
-    pNew->p2next=NULL;
-    switch (pPart->orient)
-    {
-    case N:
-        (pPart->p2next)->y=(pPart->y)-1;//set it one tile behind so when it updates it goes to the last one
-        (pPart->p2next)->x=(pPart->x);//i dont care about direction since i only need it to give it to the next one 
-        break;
-    case S:
-        (pPart->p2next)->y=(pPart->y)+1;
-        (pPart->p2next)->x=(pPart->x);
-        break;
-    case E:
-        (pPart->p2next)->y=(pPart->y);
-        (pPart->p2next)->x=(pPart->x)-1; 
-        break;
-    case W:
-        (pPart->p2next)->y=(pPart->y);
-        (pPart->p2next)->x=(pPart->x)+1;
-        break;
-    
-    }
-    return;
-}
-
-void update(part_t* pPart, int newDir)
-{
-    if(pPart==NULL)
-    {
-        return;
-    }
-    int oldDir = pPart->orient;
-    pPart->orient=newDir;
-    
-    
-    switch (newDir)
-    {
-    case N:
-        pPart->y+=1;//goes up
-        break;
-    case S:
-        pPart->y-=1;//goes down
-        break;
-    case E:
-        pPart->x+=1;//goes right 
-        break;
-    case W:
-        pPart->x-=1;// goes left
-        break;
-    
-    }
-    return update((pPart->p2next), oldDir);
-    
-}
-
-*/
