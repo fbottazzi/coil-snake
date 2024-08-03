@@ -1,0 +1,15 @@
+# Trick to ignore executable files (with no extension)
+# Tells git to ignore everything, then unignore all files with extension and unignore folders
+/src/*
+!/src/*.*
+!/src/*/
+
+/test/*
+!/test/*.*
+!/test/*/
+
+# Ignore things inside the build folder
+/build/*
+
+# Ignore vscode config (we're using make so we don't need it)
+/.vscode/
