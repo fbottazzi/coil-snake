@@ -1,17 +1,8 @@
-/* Terminal command:
-gcc test/test_body.c src/body.c -o test/test_body
-./test/test_body
-*/
-
-
-
 /*
 
 !!! Gotta re-test initSnake and test newNode
 
 */
-
-
 
 #include <stdio.h>
 #include "../src/body.h"
