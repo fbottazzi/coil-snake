@@ -4,8 +4,6 @@ typedef enum {
     N = -2, W = -1 , E = 1, S = 2
 } direction_t;
 
-
-
 typedef struct PART {
     direction_t orient;
     int x;

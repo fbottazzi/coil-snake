@@ -2,9 +2,8 @@
 typedef struct{
     int x;
     int y;
-    char symbol;
+    // clock_t time;
 }food_t;
 
-
-food_t* newFood(part_t* phead, int snakeSize);
-int foodEaten(food_t* p2Food, int snakeSize);
+food_t newFood(const part_t* phead, int board_width, int board_height);
+int checkFood(food_t* p2food, snake_t* snake, unsigned int width, unsigned int height);
