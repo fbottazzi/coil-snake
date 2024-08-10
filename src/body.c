@@ -1,8 +1,7 @@
 #include <stdlib.h>
-
-#include "coords.h"
-#include "body.h"
 #include "consts.h"
+
+#include "body.h"
 
 int initSnake(snake_t* snake, int init_x, int init_y, direction_t init_orient, unsigned int init_length)
 {

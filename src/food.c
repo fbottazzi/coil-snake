@@ -1,20 +1,25 @@
+// 10.08: MUST TEST
+
 #include <stdlib.h>
 #include "consts.h"
 #include "body.h"
 #include "food.h"
 
-food_t newFood(const part_t* phead, int board_width, int board_height) {
+food_t newFood(const part_t* phead, int width, int height) {
 
     food_t food;
     do {
-        food = {rand() % board_width, rand() % board_height};
+        food.x = rand() % width;
+        food.y = rand() % height;
     } while( isInsideSnake(food.x, food.y, phead) );
 
     return food;
 
 }
 
-int checkFood(food_t* p2food, snake_t* snake, unsigned int width, unsigned int height) {
+int checkFood(food_t* p2food, snake_t* snake, int width, int height) {
+
+    if(p2food == NULL || snake == NULL || width < 0 || height < 0)  return INPUT_ERR;
 
     if(p2food->x == snake->head->x && p2food->y == snake->head->y) {
         *p2food = newFood(snake->head, width, height);

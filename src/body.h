@@ -1,3 +1,8 @@
+#ifndef BODY_H
+#define BODY_H
+
+
+// ==========================================
 // Structure definitions to save snake's body
 
 typedef enum {
@@ -19,6 +24,10 @@ typedef struct {
     int size;
 } snake_t;
 
+
+// ==========================================
+// Functions to control snake's body
+
 // Initializes the snake with some initial position, orientation and length
 // If some maloc fails, returns HEAP_ERR, otherwise, it returns 0
 int initSnake(snake_t* snake, int init_x, int init_y, direction_t init_orient, unsigned int init_length);
@@ -37,7 +46,5 @@ int newNode(snake_t* snake);
 // Frees the memory used for the snake on the heap
 void freeAll(part_t* phead);
 
-/*
-void newNode(part_t* pPart);
-void update(part_t* pPart, int newDir);
-*/
+
+#endif // BODY_H

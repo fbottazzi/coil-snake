@@ -1,3 +1,5 @@
+#ifndef GAME_RULES_H
+#define GAME_RULES_H
 
 
 #define COLLISION(phead, width, height) ( \
@@ -6,3 +8,5 @@
     isInsideSnake((phead)->x, (phead)->y, phead) \
 )
 
+
+#endif // GAME_RULES_H
