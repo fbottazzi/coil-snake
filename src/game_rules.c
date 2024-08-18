@@ -24,7 +24,7 @@ int main(void)
 void getName(char* name)
 {
     int i;
-    printf("please input Nickname (three characters)");
+    printf("please input Nickname (three characters)");//hay que hacerla funcionar y robussta
     for(i=0;i<NAME_MAX&&name[i]!='\n';i++)
     {
         name[i]=getchar();
