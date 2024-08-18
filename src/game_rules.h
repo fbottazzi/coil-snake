@@ -7,6 +7,6 @@
     (pHead)->x >= (width) || (pHead)->y >= (height) || \
     isInsideSnake((phead)->x, (phead)->y, phead) \
 )
-
+#define NAME_MAX 3
 
 #endif // GAME_RULES_H
