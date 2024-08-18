@@ -5,16 +5,29 @@
 
 #include "game_rules.h"
 
+
+int main(void)
+{
+    char name[NAME_MAX];
+    getName(name);
+    int a;
+    for(a=0;a<3;a++)
+    {
+        printf("%c",*(name+a));
+    }
+    return 0;
+}
+
+
 //getName
 
-char* getName(void)
+void getName(char* name)
 {
     int i;
-    char nick[3];
     printf("please input Nickname (three characters)");
-    for(i=0;i<NAME_MAX;i++)
+    for(i=0;i<NAME_MAX&&name[i]!='\n';i++)
     {
-        nick[i]=getchar();
+        name[i]=getchar();
     }
-    return nick;
+    return;
 }

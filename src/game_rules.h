@@ -9,4 +9,6 @@
 )
 #define NAME_MAX 3
 
+void getName(char* name);
+
 #endif // GAME_RULES_H
