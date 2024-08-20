@@ -7,5 +7,7 @@
 // The "printing preference" is head > food, body/tail > head
 int printBoard(const snake_t* snake, const food_t* food, int width, int height);
 
+void printGameOver(void);
+void eraseBoard(void);
 
 #endif // GRAPHICS_H

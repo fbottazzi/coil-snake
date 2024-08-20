@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "body.h"
 #include "food.h"
 #include "consts.h"
@@ -46,7 +47,7 @@ int printBoard(const snake_t* snake, const food_t* food, int width, int height) 
             // If head == tail or head is inside body, tail or body is drawn (for collision graphics)
             if(COORDS_EQUAL(snake->tail, j, i)) {
                 c = symbols[TAIL];
-            } else if(isInsideSnake(j, i, snake->head->p2next)) {
+            } else if(isInsideSnake(j, i, snake->head->p2next)) {//DOES NOT WORK
                 c = symbols[BODY];
             }
             
@@ -67,4 +68,47 @@ int printBoard(const snake_t* snake, const food_t* food, int width, int height) 
     
     return 0;
 
+}
+
+
+void eraseBoard(void)
+{
+    system("clear");
+    return;
+}
+
+void printGameOver(void)
+{
+   puts(
+                                                                                                                                                                                      
+       
+                                                                                                        
+
+ " _______  _______  __   __  _______    _______  __   __  _______  ______   \n"
+"|       ||   _   ||  |_|  ||       |  |       ||  | |  ||       ||    _ |  \n"
+"|    ___||  |_|  ||       ||    ___|  |   _   ||  |_|  ||    ___||   | ||  \n"
+"|   | __ |       ||       ||   |___   |  | |  ||       ||   |___ |   |_||_ \n"
+"|   ||  ||       ||       ||    ___|  |  |_|  ||       ||    ___||    __  |\n"
+"|   |_| ||   _   || ||_|| ||   |___   |       | |     | |   |___ |   |  | |\n"
+"|_______||__| |__||_|   |_||_______|  |_______|  |___|  |_______||___|  |_|\n"
+
+                                        
+  
+    );
+    return;
+
+    /*
+    Fuente https://patorjk.com/software/taag/#p=testall&f=Graffiti&t=GAME%20OVER
+    
+ _______  _______  __   __  _______    _______  __   __  _______  ______   
+|       ||   _   ||  |_|  ||       |  |       ||  | |  ||       ||    _ |  
+|    ___||  |_|  ||       ||    ___|  |   _   ||  |_|  ||    ___||   | ||  
+|   | __ |       ||       ||   |___   |  | |  ||       ||   |___ |   |_||_ 
+|   ||  ||       ||       ||    ___|  |  |_|  ||       ||    ___||    __  |
+|   |_| ||   _   || ||_|| ||   |___   |       | |     | |   |___ |   |  | |
+|_______||__| |__||_|   |_||_______|  |_______|  |___|  |_______||___|  |_|
+
+
+    
+    */
 }

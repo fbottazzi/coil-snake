@@ -5,7 +5,7 @@
 
 * Have the game working:
     * ~~Body module: all functions~~
-    * Graphics module: printGameInit, printBoard, eraseScreen, printGameOver
+    * Graphics module: printGameInit, -printBoard-, -eraseScreen-, printGameOver
     * Game rules module: getInputInTime, runOneGameTick
     (maybe change runOneGameTick for a function that runs the game until death or quitting)
     * Some test to run and play the game
