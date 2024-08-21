@@ -9,5 +9,6 @@ int printBoard(const snake_t* snake, const food_t* food, int width, int height);
 
 void printGameOver(void);
 void eraseBoard(void);
+void printGameInit(const snake_t* snake, int width, int height);
 
 #endif // GRAPHICS_H
