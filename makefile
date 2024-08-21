@@ -13,3 +13,6 @@ test_body:
 test_graphics:
 	gcc test/test_graphics.c src/graphics.c src/body.c src/food.c -o build/test_graphics ${OPTIONS}
 	./build/test_graphics
+
+test_keys:
+	gcc test/test_keys.c src/game_rules.c -o build/test_keys -lncurses ${OPTIONS}
