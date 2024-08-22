@@ -9,8 +9,8 @@
 #define BC_Y 5 //centre Y coordinate
 
 // Return codes
-#define HEAP_ERR (-1)
-#define INPUT_ERR (-2)
+#define HEAP_ERR -1
+#define INPUT_ERR -2
 
 
 #endif // CONSTS_H

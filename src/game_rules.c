@@ -1,8 +1,6 @@
 #include <time.h>
 #include <ncurses.h>
-#include "body.h"
 #include "consts.h"
-
 #include "game_rules.h"
 
 
@@ -23,29 +21,29 @@ key_t getInputInTimeout(unsigned int time_in_ms) {
         case 'W':
         case 'w':
         case KEY_UP:
-            return UP;
+            return K_UP;
 
         case 'S':
         case 's':
         case KEY_DOWN:
-            return DOWN;
+            return K_DOWN;
         
         case 'A':
         case 'a':
         case KEY_LEFT:
-            return LEFT;
+            return K_LEFT;
         
         case 'D':
         case 'd':
         case KEY_RIGHT:
-            return RIGHT;
+            return K_RIGHT;
         
         case KEY_BACKSPACE:
         case 'p':
-            return PAUSE;
+            return K_PAUSE;
 
         default:
-            return NONE;
+            return K_NONE;
 
     }
 

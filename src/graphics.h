@@ -2,6 +2,8 @@
 #define GRAPHICS_H
 
 #include <curses.h>
+#include "food.h"
+#include "body.h"
 
 #define INITCURSES() do { \
     initscr(); \

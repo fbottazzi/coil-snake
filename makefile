@@ -6,6 +6,10 @@ OPTIONS := -Wall -Wextra
 
 # Tests:
 
+test_game:
+	gcc test/test_game.c src/body.c src/graphics.c src/game_rules.c src/food.c -o build/test_game ${OPTIONS}
+	./build/test_game
+
 test_body:
 	gcc test/test_body.c src/body.c -o build/test_body ${OPTIONS}
 	./build/test_body

@@ -1,7 +1,6 @@
 #include <curses.h>
 #include <stdlib.h>
 #include "body.h"
-#include "food.h"
 #include "consts.h"
 
 #include "graphics.h"
