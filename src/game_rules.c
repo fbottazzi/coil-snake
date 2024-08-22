@@ -8,22 +8,16 @@
 
 key_t getInputInTimeout(unsigned int time_in_ms) {
     
-    /* GOTTA TRY THIS:
-        Making the getch non-blocking (w/o timeout)
-        and then try to "get rid" of all inputs except for the last one
-        or sth I don't know
-        Me looking at ncurses documentation:  >:(
-    */
-
     clock_t start = clock();
-    if(time_in_ms > 20) {
-        timeout(time_in_ms-20);
-    }
     
-    int c = getch();
-    while(clock()-start < time_in_ms*CLOCKS_PER_SEC/1000) {
-        continue;
+    int c, aux = getch();
+    
+    while(aux != ERR && clock()-start < time_in_ms*CLOCKS_PER_SEC/1000) {
+        c = aux;
+        aux = getch();
     }
+
+    while(clock()-start < time_in_ms*CLOCKS_PER_SEC/1000) continue;
 
     switch(c) {
         case 'W':
@@ -46,8 +40,8 @@ key_t getInputInTimeout(unsigned int time_in_ms) {
         case KEY_RIGHT:
             return RIGHT;
         
-        case KEY_EXIT:
-        case 'q':
+        case KEY_BACKSPACE:
+        case 'p':
             return PAUSE;
 
         default:

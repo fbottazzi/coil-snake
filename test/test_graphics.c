@@ -9,6 +9,8 @@ int main() {
     snake_t test_snake;
     food_t food;
 
+    eraseBoard();
+
     if( initSnake(&test_snake, B_COL/2, B_ROW/2, N, 3) == HEAP_ERR) {
         printf("HEAP ERR\n\n");
         return 0;
@@ -16,7 +18,7 @@ int main() {
     
     newFood(test_snake.head, B_COL, B_ROW);
 
-    printBoard(&test_snake, &food, B_COL, B_ROW);
+    printGameInit(&test_snake, B_COL, B_ROW);
     printf("\nInput f for new food, N, S, E, W to update, q to exit:\n");
 
 
@@ -43,8 +45,8 @@ int main() {
         
         while(c != '\n') c = getchar();
 
+        eraseBoard();
         printBoard(&test_snake, &food, B_COL, B_ROW);
-
     }
 
     return 0;

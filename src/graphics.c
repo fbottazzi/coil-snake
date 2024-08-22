@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include <curses.h>
 #include <stdlib.h>
 #include "body.h"
 #include "food.h"
@@ -17,6 +17,8 @@ enum {
 
 const char symbols[] = "SO-X. ";
 
+
+
 #define COORDS_EQUAL(ptr, x_pos, y_pos) ((ptr)->x == (x_pos) && (ptr)->y == (y_pos))
 
 int printBoard(const snake_t* snake, const food_t* food, int width, int height) {
@@ -26,12 +28,12 @@ int printBoard(const snake_t* snake, const food_t* food, int width, int height) 
     
     // Print top wall
     for(i = 0; i < width+2; i++) {
-        putchar(symbols[WALL]);
+        addch(symbols[WALL]);
     }
-    putchar('\n');
-    
+    addch('\n');
+
     for(i = 0; i < width; i++) {
-        putchar(symbols[WALL]); // Left wall
+        addch(symbols[WALL]); // Left wall
 
         for(j = 0; j < height; j++) {
             char c = symbols[NONE];
@@ -51,20 +53,20 @@ int printBoard(const snake_t* snake, const food_t* food, int width, int height) 
                 c = symbols[BODY];
             }
             
-            putchar(c);
+            addch(c);
 
         }
 
-        putchar(symbols[WALL]); // Right wall
-        putchar('\n');
+        addch(symbols[WALL]); // Right wall
+        addch('\n');
 
     }
 
     // Print bottom wall
     for(i = 0; i < width+2; i++) {
-        putchar(symbols[WALL]);
+        addch(symbols[WALL]);
     }
-    putchar('\n');
+    addch('\n');
     
     return 0;
 
@@ -73,70 +75,43 @@ int printBoard(const snake_t* snake, const food_t* food, int width, int height) 
 
 void eraseBoard(void)
 {
-    system("clear");
+    clear();
     return;
 }
 
 void printGameOver(void)
 {
-   puts(
-                                                                                                                                                                                      
-       
-                                                                                                        
-
- " _______  _______  __   __  _______    _______  __   __  _______  ______   \n"
-"|       ||   _   ||  |_|  ||       |  |       ||  | |  ||       ||    _ |  \n"
-"|    ___||  |_|  ||       ||    ___|  |   _   ||  |_|  ||    ___||   | ||  \n"
-"|   | __ |       ||       ||   |___   |  | |  ||       ||   |___ |   |_||_ \n"
-"|   ||  ||       ||       ||    ___|  |  |_|  ||       ||    ___||    __  |\n"
-"|   |_| ||   _   || ||_|| ||   |___   |       | |     | |   |___ |   |  | |\n"
-"|_______||__| |__||_|   |_||_______|  |_______|  |___|  |_______||___|  |_|\n"
-
-                                        
-  
+    printw(
+    " _______  _______  __   __  _______    _______  __   __  _______  ______   \n"
+    "|       ||   _   ||  |_|  ||       |  |       ||  | |  ||       ||    _ |  \n"
+    "|    ___||  |_|  ||       ||    ___|  |   _   ||  |_|  ||    ___||   | ||  \n"
+    "|   | __ |       ||       ||   |___   |  | |  ||       ||   |___ |   |_||_ \n"
+    "|   ||  ||       ||       ||    ___|  |  |_|  ||       ||    ___||    __  |\n"
+    "|   |_| ||   _   || ||_|| ||   |___   |       | |     | |   |___ |   |  | |\n"
+    "|_______||__| |__||_|   |_||_______|  |_______|  |___|  |_______||___|  |_|\n"
     );
+
     return;
-
-    /*
-    Fuente https://patorjk.com/software/taag/#p=testall&f=Graffiti&t=GAME%20OVER
-    
- _______  _______  __   __  _______    _______  __   __  _______  ______   
-|       ||   _   ||  |_|  ||       |  |       ||  | |  ||       ||    _ |  
-|    ___||  |_|  ||       ||    ___|  |   _   ||  |_|  ||    ___||   | ||  
-|   | __ |       ||       ||   |___   |  | |  ||       ||   |___ |   |_||_ 
-|   ||  ||       ||       ||    ___|  |  |_|  ||       ||    ___||    __  |
-|   |_| ||   _   || ||_|| ||   |___   |       | |     | |   |___ |   |  | |
-|_______||__| |__||_|   |_||_______|  |_______|  |___|  |_______||___|  |_|
-
-
-    
-    */
+    // Fuente https://patorjk.com/software/taag/#p=testall&f=Graffiti&t=GAME%20OVER
 }
-
-
-
 
 void printGameInit(const snake_t* snake, int width, int height)
 {
-     if(snake == NULL  || width < 0 || height < 0)    return INPUT_ERR;
+    if(snake == NULL || width < 0 || height < 0)    return INPUT_ERR;
     int i, j;
     
     // Print top wall
     for(i = 0; i < width+2; i++) {
-        putchar(symbols[WALL]);
+        addch(symbols[WALL]);
     }
-    putchar('\n');
-    
+    addch('\n');
+
     for(i = 0; i < width; i++) {
-        putchar(symbols[WALL]); // Left wall
+        addch(symbols[WALL]); // Left wall
 
         for(j = 0; j < height; j++) {
             char c = symbols[NONE];
             
-            /*// If head is above food, head is drawn (for growth graphics)
-            if(COORDS_EQUAL(food, j, i)) {
-                c = symbols[FOOD];
-            }*/
             if(COORDS_EQUAL(snake->head, j, i)) {
                 c = symbols[HEAD];
             }
@@ -148,20 +123,22 @@ void printGameInit(const snake_t* snake, int width, int height)
                 c = symbols[BODY];
             }
             
-            putchar(c);
+            addch(c);
 
         }
 
-        putchar(symbols[WALL]); // Right wall
-        putchar('\n');
+        addch(symbols[WALL]); // Right wall
+        addch('\n');
 
     }
 
     // Print bottom wall
     for(i = 0; i < width+2; i++) {
-        putchar(symbols[WALL]);
+        addch(symbols[WALL]);
     }
-    putchar('\n');
+    addch('\n');
     
     return 0;
 }
+
+

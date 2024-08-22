@@ -16,14 +16,6 @@ typedef enum {
 
 key_t getInputInTimeout(unsigned int time_in_ms);
 
-#define INITKEYCHECK() do { \
-    initscr(); \
-    noecho(); \
-    cbreak(); \
-    keypad(stdscr, TRUE); \
-    nodelay(stdscr, TRUE); \
-} while(0)
-
 #define COLLISION(phead, width, height) ( \
     (phead)->x < 0 || (phead)->y < 0 || \
     (pHead)->x >= (width) || (pHead)->y >= (height) || \

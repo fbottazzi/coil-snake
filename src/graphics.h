@@ -1,6 +1,16 @@
 #ifndef GRAPHICS_H
 #define GRAPHICS_H
 
+#include <curses.h>
+
+#define INITCURSES() do { \
+    initscr(); \
+    noecho(); \
+    cbreak(); \
+    keypad(stdscr, TRUE); \
+    nodelay(stdscr, TRUE); \
+} while(0)
+
 
 // Prints the board
 // On NULL pointers or negative width/height, returns INPUT_ERR, else returns 0
