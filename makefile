@@ -7,7 +7,7 @@ OPTIONS := -Wall -Wextra
 # Tests:
 
 test_game:
-	gcc test/test_game.c src/body.c src/graphics.c src/game_rules.c src/food.c -o build/test_game ${OPTIONS}
+	gcc test/test_game.c src/body.c src/graphics.c src/game_rules.c src/food.c -o build/test_game ${OPTIONS} -lncurses
 	./build/test_game
 
 test_body:

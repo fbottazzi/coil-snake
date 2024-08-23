@@ -1,4 +1,3 @@
-#include <curses.h>
 #include <stdlib.h>
 #include "body.h"
 #include "consts.h"
@@ -94,7 +93,7 @@ void printGameOver(void)
     // Fuente https://patorjk.com/software/taag/#p=testall&f=Graffiti&t=GAME%20OVER
 }
 
-void printGameInit(const snake_t* snake, int width, int height)
+int printGameInit(const snake_t* snake, int width, int height)
 {
     if(snake == NULL || width < 0 || height < 0)    return INPUT_ERR;
     int i, j;

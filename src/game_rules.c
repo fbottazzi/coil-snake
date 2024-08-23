@@ -7,6 +7,12 @@
 key_t getInputInTimeout(unsigned int time_in_ms) {
     
     clock_t start = clock();
+    while( clock() - start < CLOCKS_PER_SEC*time_in_ms/1000 ) ;
+
+    return K_NONE;
+
+    /*
+    clock_t start = clock();
     
     int c, aux = getch();
     
@@ -46,5 +52,5 @@ key_t getInputInTimeout(unsigned int time_in_ms) {
             return K_NONE;
 
     }
-
+    */
 }

@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <curses.h>
+
 #include "../src/game_rules.h"
 
 #define T (300) // Number of miliseconds of the timeout
@@ -12,7 +13,7 @@ const char* aux_names[] = {
 
 int main(void)
 {
-
+    
     initscr();
     noecho();
     cbreak();
@@ -21,15 +22,7 @@ int main(void)
 
     key_t c = NONE;
     while(c != PAUSE) {
-
-        
         clear();
-        printw("Detecting key... ");
-        c = getInputInTimeout(T);
-        printw("%s\n", KEY_NAME(c));
-        printw("Detecting key... ");
-        c = getInputInTimeout(T);
-        printw("%s\n", KEY_NAME(c));
         printw("Detecting key... ");
         c = getInputInTimeout(T);
         printw("%s\n", KEY_NAME(c));

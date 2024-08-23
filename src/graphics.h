@@ -1,7 +1,7 @@
 #ifndef GRAPHICS_H
 #define GRAPHICS_H
 
-#include <curses.h>
+#include <ncurses.h>
 #include "food.h"
 #include "body.h"
 
@@ -21,6 +21,6 @@ int printBoard(const snake_t* snake, const food_t* food, int width, int height);
 
 void printGameOver(void);
 void eraseBoard(void);
-void printGameInit(const snake_t* snake, int width, int height);
+int printGameInit(const snake_t* snake, int width, int height);
 
 #endif // GRAPHICS_H

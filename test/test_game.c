@@ -1,4 +1,4 @@
-#include <curses.h>
+#include <ncurses.h>
 #include "../src/body.h"
 #include "../src/game_rules.h"
 #include "../src/graphics.h"
@@ -6,6 +6,8 @@
 #include "../src/consts.h"
 
 #define TRY(function, err_code) if((function) == (err_code))    return (err_code)
+
+
 
 typedef enum {
     PLAYING,
@@ -15,8 +17,6 @@ typedef enum {
     MENU_TOPSCORES,
     MENU_SETTINGS
 } state_t;
-
-void pause(void) { clear(); printw("Pause\n"); timeout(10000); getch(); return; }
 
 int main(void)
 {
@@ -35,7 +35,8 @@ int main(void)
 
     while(gamestate == PLAYING) {
         
-        key = getInputInTimeout(200);
+        clear();
+        key = getInputInTimeout(2000);
 
         switch(key) {
             case K_PAUSE:
@@ -62,7 +63,7 @@ int main(void)
         printBoard(&snake, &food, B_COL, B_ROW);
 
     }
-
+    clear();
     if(gamestate == PAUSE) {
         printw("Game paused\n");
     } else if(gamestate == GAMEOVER) {
@@ -71,6 +72,8 @@ int main(void)
     printw("Quitting\n");
 
     freeAll(snake.head);
+    while(1) ;
+    endwin();
 
     return 0;
 }
