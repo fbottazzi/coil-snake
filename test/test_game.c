@@ -20,15 +20,27 @@ typedef enum {
 
 int main(void)
 {
-    INITCURSES();
+    initscr();
+    noecho();
+    cbreak();
+    keypad(stdscr, 1);
+    nodelay(stdscr, 1);
 
     snake_t snake;
     food_t food;
     key_t key;
     state_t gamestate = PLAYING;
-    // unsigned int lives = 3, score = 0;
-    // register int i;
+    
+    TRY( initSnake(&snake, BC_X, BC_Y, N, 3), HEAP_ERR );
+    
+    printGameInit(&snake, B_COL, B_ROW);
 
+    while(1) {
+        
+    }
+
+
+    /*
     TRY( initSnake(&snake, BC_X, BC_Y, N, 3), HEAP_ERR );
     food = newFood(snake.head, B_COL, B_ROW);
     printGameInit(&snake, B_COL, B_ROW);
@@ -76,4 +88,5 @@ int main(void)
     endwin();
 
     return 0;
+    */
 }

@@ -1,3 +1,4 @@
+#include <ncurses.h>
 #include "../src/body.h"
 #include "../src/food.h"
 #include "../src/graphics.h"
@@ -6,17 +7,20 @@
 #include <time.h>
 
 int main() {
+
+    initscr();
+    cbreak();
+
     snake_t test_snake;
     food_t food;
 
-    eraseBoard();
+    //eraseBoard();
 
     if( initSnake(&test_snake, B_COL/2, B_ROW/2, N, 3) == HEAP_ERR) {
         printf("HEAP ERR\n\n");
         return 0;
     }
     
-    newFood(test_snake.head, B_COL, B_ROW);
 
     printGameInit(&test_snake, B_COL, B_ROW);
     printf("\nInput f for new food, N, S, E, W to update, q to exit:\n");
@@ -49,6 +53,7 @@ int main() {
         printBoard(&test_snake, &food, B_COL, B_ROW);
     }
 
+    endwin();
     return 0;
 
 }
