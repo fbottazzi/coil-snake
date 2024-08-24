@@ -15,15 +15,32 @@ enum {
 
 const char symbols[] = "SO-X. ";
 
-void drawPart(point drawPoint) {
-		mvprintw(drawPoint.y, drawPoint.x, "o");
-	}
+void drawPart(const part_t* drawPoint, const char symbol[]) {
+        mvprintw(drawPoint->y, drawPoint->x, symbol);
+}
+
+void drawSnake(const part_t* p2head) {
+    const part_t* current;
+    for(current = p2head; current != NULL; current = current->p2next) {
+        drawPart(current, "o");
+    }
+}
 
 
 #define COORDS_EQUAL(ptr, x_pos, y_pos) ((ptr)->x == (x_pos) && (ptr)->y == (y_pos))
 
 int printBoard(const snake_t* snake, const food_t* food, int width, int height) {
 
+    drawSnake(snake->head);
+    part_t _food;
+    _food.x = food->x;
+    _food.y = food->y;
+    drawPart(&_food, "X");
+    
+    _food.x = width+height;
+
+    return 0;
+    /*
     if(snake == NULL || food == NULL || width < 0 || height < 0)    return INPUT_ERR;
     int i, j;
     
@@ -70,7 +87,7 @@ int printBoard(const snake_t* snake, const food_t* food, int width, int height) 
     addch('\n');
     
     return 0;
-
+    */
 }
 
 
@@ -82,6 +99,7 @@ void eraseBoard(void)
 
 void printGameOver(void)
 {
+    clear();
     printw(
     " _______  _______  __   __  _______    _______  __   __  _______  ______   \n"
     "|       ||   _   ||  |_|  ||       |  |       ||  | |  ||       ||    _ |  \n"
@@ -98,6 +116,8 @@ void printGameOver(void)
 
 int printGameInit(const snake_t* snake, int width, int height)
 {
+    return 0;
+    /*
     if(snake == NULL || width < 0 || height < 0)    return INPUT_ERR;
     int i, j;
     
@@ -140,6 +160,7 @@ int printGameInit(const snake_t* snake, int width, int height)
     addch('\n');
     
     return 0;
+    */
 }
 
 

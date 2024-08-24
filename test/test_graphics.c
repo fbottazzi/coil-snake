@@ -3,13 +3,18 @@
 #include "../src/food.h"
 #include "../src/graphics.h"
 #include "../src/consts.h"
-#include <stdio.h>
 #include <time.h>
+
+#define TIMEOUT 30
 
 int main() {
 
-    initscr();
+    initscr(); //Initialize the window
+    noecho(); //Don't echo keypresses
+    keypad(stdscr, TRUE);
     cbreak();
+    timeout(TIMEOUT);
+    curs_set(FALSE);
 
     snake_t test_snake;
     food_t food;
@@ -17,18 +22,21 @@ int main() {
     //eraseBoard();
 
     if( initSnake(&test_snake, B_COL/2, B_ROW/2, N, 3) == HEAP_ERR) {
-        printf("HEAP ERR\n\n");
+        printw("HEAP ERR\n\n");
+        endwin();
         return 0;
     }
     
 
     printGameInit(&test_snake, B_COL, B_ROW);
-    printf("\nInput f for new food, N, S, E, W to update, q to exit:\n");
+    printw("\nInput f for new food, N, S, E, W to update, q to exit:\n");
 
 
     char c;
-    while( (c=getchar()) != 'q' ) {
+    int cont = 1;
+    while( cont ) {
 
+        c = getch();
         switch(c) {
             case 'f':
                 food = newFood(test_snake.head, B_COL, B_ROW);
@@ -45,13 +53,17 @@ int main() {
             case 'S':
                 update(&test_snake, S);
                 break;
+            case 'q':
+            case 'Q':
+                cont = 0;
         }
         
-        while(c != '\n') c = getchar();
 
         eraseBoard();
         printBoard(&test_snake, &food, B_COL, B_ROW);
     }
+
+    printGameOver();
 
     endwin();
     return 0;
