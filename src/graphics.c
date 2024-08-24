@@ -15,6 +15,9 @@ enum {
 
 const char symbols[] = "SO-X. ";
 
+void drawPart(point drawPoint) {
+		mvprintw(drawPoint.y, drawPoint.x, "o");
+	}
 
 
 #define COORDS_EQUAL(ptr, x_pos, y_pos) ((ptr)->x == (x_pos) && (ptr)->y == (y_pos))
