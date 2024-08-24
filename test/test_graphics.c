@@ -2,6 +2,7 @@
 #include "../src/body.h"
 #include "../src/food.h"
 #include "../src/graphics.h"
+#include "../src/game_rules.h"
 #include "../src/consts.h"
 #include <time.h>
 
@@ -9,62 +10,41 @@
 
 int main() {
 
-    initscr(); //Initialize the window
-    noecho(); //Don't echo keypresses
-    keypad(stdscr, TRUE);
-    cbreak();
-    timeout(TIMEOUT);
-    curs_set(FALSE);
+    initGraphics();
 
-    snake_t test_snake;
+    snake_t snake;
     food_t food;
+    key_t input;
 
-    //eraseBoard();
-
-    if( initSnake(&test_snake, B_COL/2, B_ROW/2, N, 3) == HEAP_ERR) {
+    if( initSnake(&snake, B_COL/2, B_ROW/2, N, 3) == HEAP_ERR) {
         printw("HEAP ERR\n\n");
         endwin();
         return 0;
     }
     
+    printGameInit(&snake, B_COL, B_ROW);
+    mvprintw("\nInput f for new food, WASD or keys to update, q to exit:\n");
 
-    printGameInit(&test_snake, B_COL, B_ROW);
-    printw("\nInput f for new food, N, S, E, W to update, q to exit:\n");
+    food = newFood(snake.head, B_COL, B_ROW);
+    printInBoard(NULL, NULL, &food);
 
+    do {
 
-    char c;
-    int cont = 1;
-    while( cont ) {
-
-        c = getch();
-        switch(c) {
-            case 'f':
-                food = newFood(test_snake.head, B_COL, B_ROW);
-                break;
-            case 'N':
-                update(&test_snake, N);
-                break;
-            case 'W':
-                update(&test_snake, W);
-                break;
-            case 'E':
-                update(&test_snake, E);
-                break;
-            case 'S':
-                update(&test_snake, S);
-                break;
-            case 'q':
-            case 'Q':
-                cont = 0;
+        input = getKey();
+        switch(input) {
+            case K_DOWN:
+            case K_LEFT:
+            case K_RIGHT:
+            case K_UP:
+                eraseInBoard(snake.tail->x, snake.tail->y);
+                update(&snake, (direction_t) input);
+                printInBoard(snake.head, snake.tail, &food);
         }
-        
 
-        eraseBoard();
-        printBoard(&test_snake, &food, B_COL, B_ROW);
-    }
+    } while(input != K_PAUSE);
 
-    printGameOver();
-
+    
+    
     endwin();
     return 0;
 

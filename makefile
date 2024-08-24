@@ -15,7 +15,7 @@ test_body:
 	./build/test_body
 
 test_graphics:
-	gcc test/test_graphics.c src/graphics.c src/body.c src/food.c ${OPTIONS} -o build/test_graphics
+	gcc test/test_graphics.c src/graphics.c src/body.c src/food.c src/game_rules.c ${OPTIONS} -o build/test_graphics
 	./build/test_graphics
 
 test_keys:

@@ -4,6 +4,9 @@
 #include "body.h"
 #include "food.h"
 
+/* ======================= */
+/* Macros & typedefs */
+
 typedef enum {
     K_UP = N,
     K_LEFT = W,
@@ -15,16 +18,21 @@ typedef enum {
 
 } key_t;
 
-// Checks for key input during time_in_ms miliseconds,
-// Returns NONE if neither the WASD/arrow keys nor the pause key's been pressed
-key_t getInputInTimeout(unsigned int time_in_ms);
-
 // Boolean comparison that returns 1 if the head is inside the border or a body part
 #define COLLISION(phead, width, height) ( \
-    (phead)->x < 0 || (phead)->y < 0 || \
-    (phead)->x >= (width) || (phead)->y >= (height) || \
+    (phead)->x < 0 || (phead)->x >= (width) || \
+    (phead)->y < 0 || (phead)->y >= (height) || \
     isInsideSnake((phead)->x, (phead)->y, phead) \
 )
+
+
+/* ======================= */
+/* Functions */
+
+// Checks for key input, returns NONE if
+// neither the WASD/arrow keys nor the pause key have been pressed
+key_t getKey(void);
+
 
 
 #endif // GAME_RULES_H
