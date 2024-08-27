@@ -36,7 +36,9 @@ int isInsideSnake(int x, int y, const part_t* phead) {
 
 void update(snake_t* snake, direction_t dir) {
 
-    if(-dir == snake->head->orient) return; // Can't turn 180deg
+    if(dir == - snake->head->orient) { // Can't turn 180deg
+        dir = -dir;         // Just don't turn
+    }
 
     part_t *new_head = snake->tail, *new_tail = snake->tail->p2prev;
     // Instead of freeing the tail and allocating a new head,

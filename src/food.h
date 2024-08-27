@@ -1,8 +1,7 @@
-// 10.08: MUST TEST
-
 #ifndef FOOD_H
 #define FOOD_H
 
+#include "body.h"
 
 typedef struct {
     int x;

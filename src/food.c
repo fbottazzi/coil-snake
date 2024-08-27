@@ -2,7 +2,6 @@
 
 #include <stdlib.h>
 #include "consts.h"
-#include "body.h"
 #include "food.h"
 
 food_t newFood(const part_t* phead, int width, int height) {

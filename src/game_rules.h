@@ -22,9 +22,8 @@ typedef enum {
 #define COLLISION(phead, width, height) ( \
     (phead)->x < 0 || (phead)->x >= (width) || \
     (phead)->y < 0 || (phead)->y >= (height) || \
-    isInsideSnake((phead)->x, (phead)->y, phead) \
+    isInsideSnake((phead)->x, (phead)->y, (phead)->p2next) \
 )
-
 
 /* ======================= */
 /* Functions */

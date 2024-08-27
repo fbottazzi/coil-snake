@@ -10,7 +10,7 @@
 
 int main() {
 
-    initGraphics();
+    initGraphics(TIMEOUT);
 
     snake_t snake;
     food_t food;
@@ -23,7 +23,7 @@ int main() {
     }
     
     printGameInit(&snake, B_COL, B_ROW);
-    mvprintw("\nInput f for new food, WASD or keys to update, q to exit:\n");
+    printw("\nInput f for new food, WASD or keys to update, q to exit:\n");
 
     food = newFood(snake.head, B_COL, B_ROW);
     printInBoard(NULL, NULL, &food);
@@ -39,6 +39,10 @@ int main() {
                 eraseInBoard(snake.tail->x, snake.tail->y);
                 update(&snake, (direction_t) input);
                 printInBoard(snake.head, snake.tail, &food);
+                break;
+            case K_PAUSE:
+            case K_NONE:
+                break;
         }
 
     } while(input != K_PAUSE);

@@ -25,7 +25,7 @@ const char* symbols[] = {
     "#", // WALL    
     "S", // HEAD    
     "o", // BODY    
-    "",  // TAIL    
+    "-",  // TAIL    
     "X", // FOOD
     "" // Terminador
 };
@@ -35,24 +35,23 @@ const char* symbols[] = {
 /* ====== */
 /* Macros */
 
-#define DRAWCOORD(point, symbol) ( mvprintw( Y_0 + (point)->y, X_0 + (point)->x, symbol ) )
+#define DRAWCOORD(point, symbol) ( mvprintw( Y_0 + (point)->y, X_0 + (point)->x, "%s", symbol ) )
 
 /* ========= */
 /* Functions */
 
-void initGraphics(void) {
+void initGraphics(int _timeout) {
 
     initscr();
     noecho();
     keypad(stdscr, TRUE);
     cbreak();
-    timeout(TIMEOUT);
     curs_set(FALSE);
+    timeout(_timeout);
 
 }
 
-int printGameInit(const snake_t* snake, int width, int height)
-{
+int printGameInit(const snake_t* snake, int width, int height) {
     if(snake == NULL || width < 0 || height < 0)    return INPUT_ERR;
     
     int i;
@@ -61,19 +60,19 @@ int printGameInit(const snake_t* snake, int width, int height)
     // Top wall
     move(Y_0-1, X_0-1);
     for(i = 0; i < width+2; i++) {
-        printw(symbols[WALL]);
+        printw("%s", symbols[WALL]);
     }
     
     // Bottom wall
-    move(Y_0+height, X_0+width);
+    move(Y_0+height, X_0-1);
     for(i = 0; i < width+2; i++) {
-        printw(symbols[WALL]);
+        printw("%s", symbols[WALL]);
     }
 
     // Left & right walls
     for(i = Y_0; i < Y_0+height; i++) {
-        mvprintw(i, X_0-1, symbols[WALL]);
-        mvprintw(i, X_0+width, symbols[WALL]);
+        mvprintw(i, X_0-1, "%s", symbols[WALL]);
+        mvprintw(i, X_0+width, "%s", symbols[WALL]);
     }
 
     // Snake
@@ -90,16 +89,10 @@ int printGameInit(const snake_t* snake, int width, int height)
 }
 
 void eraseInBoard(int x, int y) {
-    mvprintw(Y_0 + y, X_0 + x, symbols[NONE]);
+    mvprintw(Y_0 + y, X_0 + x, "%s", symbols[NONE]);
 }
 
 void printInBoard(const part_t* head, const part_t* tail, const food_t* food) {
-
-    if(head != NULL) {
-        DRAWCOORD(head->p2next, symbols[BODY]);
-        DRAWCOORD(head, symbols[HEAD]);
-    }
-
     if(tail != NULL) {
         DRAWCOORD(tail, symbols[TAIL]);
     }
@@ -108,10 +101,15 @@ void printInBoard(const part_t* head, const part_t* tail, const food_t* food) {
         DRAWCOORD(food, symbols[FOOD]);
     }
 
+    if(head != NULL) {
+        DRAWCOORD(head->p2next, symbols[BODY]);
+        DRAWCOORD(head, symbols[HEAD]);
+    }
+
+
 }
 
-void printGameOver(void)
-{
+void printGameOver(void) {
     clear();
     printw(
     " _______  _______  __   __  _______    _______  __   __  _______  ______   \n"

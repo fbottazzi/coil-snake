@@ -36,7 +36,7 @@ int initSnake(snake_t* snake, int init_x, int init_y, direction_t init_orient, u
 int isInsideSnake(int x, int y, const part_t* phead);
 
 //  Moves the snake one step into the direction dir, not increasing it's size
-//  Doesn't allocate memory so it doesn't return error codes
+//  If dir is opposite to the head's orientation, ignores it and updates it forward
 void update(snake_t* snake, direction_t dir);
 
 // Creates a new part behind the tail and saves it in the snake as the new tail

@@ -5,7 +5,7 @@
 #include "body.h"
 
 // Initializes and configs the graphics library (ncurses)
-void initGraphics(void);
+void initGraphics(int _timeout);
 
 // Prints the walls & the snake
 // On NULL pointers or negative width/height, returns INPUT_ERR, else returns 0
@@ -14,8 +14,8 @@ int printGameInit(const snake_t* snake, int width, int height);
 // Erases the symbol of some position in the board
 void eraseInBoard(int x, int y);
 
-// Updates the head and the new tail, and prints the new food
-// Doesn't erase the old food or tail
+// Updates the head and the new tail, erases the old tail, and prints the new food
+// In case of conflict, priority of printing goes head > food > tail
 // On NULL pointers ignores the parameter and doesn't update/print it
 void printInBoard(const part_t* head, const part_t* tail, const food_t* food);
 
