@@ -1,13 +1,16 @@
 #include <ncurses.h>
-#include "../src/body.h"
+#include <time.h>
+#include <stdlib.h>
 #include "../src/game_rules.h"
+#include "../src/body.h"
 #include "../src/graphics.h"
 #include "../src/food.h"
 #include "../src/consts.h"
 
 #define TRY(function, err_code) if((function) == (err_code))    return (err_code)
+#define TIMEOUT 300
 
-
+// Menus module
 
 typedef enum {
     PLAYING,
@@ -18,75 +21,78 @@ typedef enum {
     MENU_SETTINGS
 } state_t;
 
-int main(void)
-{
-    initscr();
-    noecho();
-    cbreak();
-    keypad(stdscr, 1);
-    nodelay(stdscr, 1);
+
+
+
+int main(void) {
+    
+    initGraphics(TIMEOUT);
+    srand(time(NULL));
 
     snake_t snake;
     food_t food;
-    key_t key;
+    input_t key = K_NONE;
     state_t gamestate = PLAYING;
-    
-    TRY( initSnake(&snake, BC_X, BC_Y, N, 3), HEAP_ERR );
-    
-    printGameInit(&snake, B_COL, B_ROW);
+    int error = 0;
 
-    while(1) {
-        
+    if( initSnake(&snake, BC_X, BC_Y, N, 3) == HEAP_ERR) {
+        endwin();
+        return HEAP_ERR;
     }
 
-
-    /*
-    TRY( initSnake(&snake, BC_X, BC_Y, N, 3), HEAP_ERR );
     food = newFood(snake.head, B_COL, B_ROW);
     printGameInit(&snake, B_COL, B_ROW);
 
     while(gamestate == PLAYING) {
         
-        clear();
-        key = getInputInTimeout(2000);
+        key = getKey();
 
+        eraseInBoard(snake.tail->x, snake.tail->y);
         switch(key) {
-            case K_PAUSE:
-                gamestate = PAUSE;
+            case K_DOWN:
+            case K_LEFT:
+            case K_RIGHT:
+            case K_UP:
+                update(&snake, (direction_t) key);
                 break;
             case K_NONE:
                 update(&snake, snake.head->orient);
                 break;
+            case K_PAUSE:
+                gamestate = PAUSE;
+                break;
             default:
-                update(&snake, (direction_t) key);
+                gamestate = GAMEOVER;
+                error = INPUT_ERR;
                 break;
         }
         
-        if( COLLISION(snake.head, B_COL, B_ROW) ) {
+        if( checkFood(&food, &snake, B_COL, B_ROW) == HEAP_ERR) {
             gamestate = GAMEOVER;
+            error = HEAP_ERR;
         } else {
-            
-            TRY( checkFood(&food, &snake, B_COL, B_ROW), HEAP_ERR );
-            // This already updates the length of the snake,
-            // so for now no need for score counter
-
+            printInBoard(snake.head, snake.tail, &food);
+            // Print head, new food & re-print tail
+            if( COLLISION(snake.head, B_COL, B_ROW) ) gamestate = GAMEOVER;
+        
         }
-
-        printBoard(&snake, &food, B_COL, B_ROW);
-
+        
+        refresh();
     }
-    clear();
-    if(gamestate == PAUSE) {
-        printw("Game paused\n");
-    } else if(gamestate == GAMEOVER) {
-        printw("Game over\n");
+
+    if(error) {
+        clear();
+        printw("ERROOOOOOOOOOOR\n\n");
+        // This should better after, probably a routine in the graphics lib
+    } else {
+        printGameOver();
     }
-    printw("Quitting\n");
 
     freeAll(snake.head);
-    while(1) ;
+
+    timeout(-1);
+    getch();
+    clear();
     endwin();
 
-    return 0;
-    */
 }

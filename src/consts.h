@@ -2,11 +2,11 @@
 #define CONSTS_H
 
 
-#define B_COL 10 //number of columns
-#define B_ROW 10 //number of rows
+#define B_COL 20 //number of columns
+#define B_ROW 20 //number of rows
 
-#define BC_X 5 //centre X coordinate
-#define BC_Y 5 //centre Y coordinate
+#define BC_X 10 //centre X coordinate
+#define BC_Y 10 //centre Y coordinate
 
 // Return codes
 #define HEAP_ERR -1

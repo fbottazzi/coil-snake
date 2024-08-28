@@ -1,17 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "game_rules.h"
+#include "consts.h"
 
-int main(int argc, char const *argv[])
+#define TIMEOUT 300
+
+int main(void)
 {
-    printf("Hallo Welt\n");
 
-    for (int i = 0; i < 20; i++)
-    {
-        printf("\na");
-    }
-    printf("%%\n");
-    
-    
+    runGame(B_COL, B_ROW, TIMEOUT, BC_X, BC_Y, N, 3);
     
     return 0;
 }

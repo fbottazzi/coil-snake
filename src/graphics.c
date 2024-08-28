@@ -3,6 +3,7 @@
 #include "consts.h" // Error codes
 
 #include "graphics.h" // Includes body, food & ncurses
+#include "progstates.h"
 
 /* ================ */
 /* Constants & globals */
@@ -111,6 +112,7 @@ void printInBoard(const part_t* head, const part_t* tail, const food_t* food) {
 
 void printGameOver(void) {
     clear();
+
     printw(
     " _______  _______  __   __  _______    _______  __   __  _______  ______   \n"
     "|       ||   _   ||  |_|  ||       |  |       ||  | |  ||       ||    _ |  \n"
@@ -119,8 +121,16 @@ void printGameOver(void) {
     "|   ||  ||       ||       ||    ___|  |  |_|  ||       ||    ___||    __  |\n"
     "|   |_| ||   _   || ||_|| ||   |___   |       | |     | |   |___ |   |  | |\n"
     "|_______||__| |__||_|   |_||_______|  |_______|  |___|  |_______||___|  |_|\n"
+    "\n\n\n"
+    "Press any key to go back to main menu "
     );
 
+    curs_set(TRUE);
+    timeout(-1);    
+
+    while( getch() != '\n')    ;
+
+    clear();
     return;
     // Fuente https://patorjk.com/software/taag/#p=testall&f=Graffiti&t=GAME%20OVER
 }

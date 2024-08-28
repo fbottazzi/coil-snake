@@ -47,7 +47,6 @@ void update(snake_t* snake, direction_t dir) {
     // "Move" current tail node to the head by changing the pointers
     new_tail->p2next = NULL;
     snake->head->p2prev = new_head;
-    snake->head->orient = dir;
 
     // Values of new_head
     new_head->orient = dir;
@@ -57,6 +56,7 @@ void update(snake_t* snake, direction_t dir) {
     // New position
     new_head->x = snake->head->x;
     new_head->y = snake->head->y;
+
     switch(dir) {
             case N:
                 (new_head->y)--;

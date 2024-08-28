@@ -3,6 +3,7 @@
 
 #include "body.h"
 #include "food.h"
+#include "progstates.h"
 
 /* ======================= */
 /* Macros & typedefs */
@@ -16,7 +17,7 @@ typedef enum {
     K_PAUSE,
     K_NONE
 
-} key_t;
+} input_t;
 
 // Boolean comparison that returns 1 if the head is inside the border or a body part
 #define COLLISION(phead, width, height) ( \
@@ -30,8 +31,8 @@ typedef enum {
 
 // Checks for key input, returns NONE if
 // neither the WASD/arrow keys nor the pause key have been pressed
-key_t getKey(void);
+input_t getKey(void);
 
-
+int runGame(int width, int height, int gametick_ms, int init_x, int init_y, direction_t init_orient, unsigned int init_length);
 
 #endif // GAME_RULES_H
