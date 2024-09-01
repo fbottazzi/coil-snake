@@ -8,6 +8,8 @@
 /* ======================= */
 /* Macros & typedefs */
 
+#define NAME_MAX 8
+
 typedef enum {
     K_UP = N,
     K_LEFT = W,
