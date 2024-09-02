@@ -1,6 +1,8 @@
 #ifndef PROGSTATES_H
 #define PROGSTATES_H
 
+
+
 typedef enum {
     PLAYING,
     PAUSE,

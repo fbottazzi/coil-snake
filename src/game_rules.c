@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include "consts.h"
 #include "graphics.h"
-
+#include "gameInfo.h"
 #include "game_rules.h"
 
 #define TOUPPER(c) ('a'<=(c) && (c)<='z' ? (c)+'A'-'a' : (c) )
@@ -107,48 +107,3 @@ int runGame(int width, int height, int gametick_ms, int init_x, int init_y, dire
 
 }
 
-//still have to make struct with data and the storage in a file
-void getName(char* name)
-{
-    int i=NAME_MAX;
-    char c;
-    printf("input your name(max %d chars): \n",i);
-    for(i=0;i<NAME_MAX && c!='\n'; i++)
-    {
-        c = getchar();
-        name[i]=c;
-    }
-    //making an standard ending
-    if(c!='\n')
-    {
-        name[i+1]='\n';
-    }
-    return;
-}
-
-
-//make typedef, needs testing
-void storeGame(gameData thisGame)
-{
-    FILE* gameFile = fopen("/build/scores", "a+");
-    int i;
-
-    if(gameFile==NULL)
-    {
-        return ERR;
-    }
-
-    for(i=0;thisGame.name[i]!='\n';i++)
-    {
-        fprintf(gameFile, "%c",thisGame.name[i]);
-    }
-
-    fprintf(gameFile, "; ");
-
-    //always ends in a new line
-    fprintf(gameFile, "%c \n",thisGame.score);
-
-    fclose(gameFile);
-    return;
-
-}
