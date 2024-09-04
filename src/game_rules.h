@@ -37,7 +37,5 @@ input_t getKey(void);
 
 int runGame(int width, int height, int gametick_ms, int init_x, int init_y, direction_t init_orient, unsigned int init_length);
 
-void getName (gameInfo* thisGame);
-void storeGame(gameInfo* thisGame);
 
 #endif // GAME_RULES_H
