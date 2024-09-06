@@ -5,17 +5,13 @@
 
 #define NAME_MAX 8
 #define NAME_ERR -8
+#define CHARS_IN_DATE 9
 
-typedef struct{
-    int day;
-    int month;
-    int year;
-}date;
 
 typedef struct{
     char name[NAME_MAX];
     unsigned int score;
-    date gameDate;
+    
 
 } gameInfo;
 

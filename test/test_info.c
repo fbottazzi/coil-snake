@@ -9,10 +9,10 @@ int main(void)
 
     getName(pThisGame);
     
+    printf("%s \n",__DATE__);
+
     thisGame.score = 100;
-    thisGame.gameDate.day =1;
-    thisGame.gameDate.month =1;
-    thisGame.gameDate.year =1;
+    
 
     storeGame(pThisGame);
     return 0;

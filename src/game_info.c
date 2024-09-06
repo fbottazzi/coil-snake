@@ -41,7 +41,7 @@ void storeGame(gameInfo* thisGame)
     //always ends in a new line
     fprintf(gameFile, "%d; ",thisGame->score);
 
-    fprintf(gameFile,"%d/%d/%d \n", (thisGame->gameDate).day, (thisGame->gameDate).month, (thisGame->gameDate).year);
+    fprintf(gameFile,"%s", __DATE__);
 
     fclose(gameFile);
     return;
