@@ -1,4 +1,5 @@
 #include "gameInfo.h"
+#include "body.h"
 #include <stdio.h>
 
 
@@ -20,29 +21,32 @@ void getName (gameInfo* thisGame)
 
 
 
-//make typedef, needs testing
-void storeGame(gameInfo* thisGame)
+
+void storeGame(gameInfo* thisGame, snake_t* snake)
 {
+    //creates/opens the file
     FILE* gameFile = fopen("build/scores", "a+");
     int i;
 
-    if(gameFile==NULL)
+    if(gameFile==NULL)//checks if some error ocurred
     {
         return;
     }
 
-    for(i=0;i<NAME_MAX;i++)
+    for(i=0;i<NAME_MAX;i++)//prints the name in the file
     {
-        fprintf(gameFile, "%c",thisGame->name[i]);
+        fprintf(gameFile, "%c; ",thisGame->name[i]);
     }
 
-    fprintf(gameFile, "; ");
+    thisGame->score=snake->size;
 
-    //always ends in a new line
+    //prints the score
     fprintf(gameFile, "%d; ",thisGame->score);
 
-    fprintf(gameFile,"%s", __DATE__);
+    //always ends in a new line and prints the date
+    fprintf(gameFile,"%s \n", __DATE__);
 
+    //closes file and commits the buffer
     fclose(gameFile);
     return;
 
