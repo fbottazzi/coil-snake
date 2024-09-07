@@ -38,6 +38,7 @@ void storeGame(gameInfo* thisGame, snake_t* snake)
         fprintf(gameFile, "%c; ",thisGame->name[i]);
     }
 
+    //assigns the score
     thisGame->score=snake->size;
 
     //prints the score
