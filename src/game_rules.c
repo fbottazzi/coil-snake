@@ -38,6 +38,9 @@ input_t getKey(void) {
 
 int runGame(int width, int height, int gametick_ms, int init_x, int init_y, direction_t init_orient, unsigned int init_length) {
     
+    gameInfo thisGame;
+    getName(&thisGame);
+
     initGraphics(gametick_ms);
     srand(time(NULL));
 
@@ -102,6 +105,8 @@ int runGame(int width, int height, int gametick_ms, int init_x, int init_y, dire
 
     freeAll(snake.head);
     endwin();
+
+    storeGame(&thisGame, &snake);
     
     return error ? error : snake.size;
 

@@ -2,6 +2,7 @@
 #define GAMEINFO
 
 #include <stdlib.h>
+#include "body.h"
 
 #define NAME_MAX 8
 #define NAME_ERR -8
@@ -16,7 +17,7 @@ typedef struct{
 } gameInfo;
 
 void getName (gameInfo* thisGame);
-void storeGame(gameInfo* thisGame);
+void storeGame(gameInfo* thisGame, snake_t* snake);
 
 #endif
 

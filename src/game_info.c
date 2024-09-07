@@ -1,5 +1,5 @@
 #include "gameInfo.h"
-#include "body.h"
+
 #include <stdio.h>
 
 
@@ -13,7 +13,7 @@ void getName (gameInfo* thisGame)
     for(i=0; (c=getchar())!='\n' && i<NAME_MAX;i++)
     {
         (thisGame->name)[i] = c;
-        printf("%c",c);
+        
     }
     return;
 }
@@ -33,16 +33,14 @@ void storeGame(gameInfo* thisGame, snake_t* snake)
         return;
     }
 
-    for(i=0;i<NAME_MAX;i++)//prints the name in the file
-    {
-        fprintf(gameFile, "%c; ",thisGame->name[i]);
-    }
+    //prints the name in the file
+    fprintf(gameFile, "%s",thisGame->name);
 
     //assigns the score
     thisGame->score=snake->size;
 
     //prints the score
-    fprintf(gameFile, "%d; ",thisGame->score);
+    fprintf(gameFile, "; %d; ",thisGame->score);
 
     //always ends in a new line and prints the date
     fprintf(gameFile,"%s \n", __DATE__);
