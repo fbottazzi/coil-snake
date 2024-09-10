@@ -36,6 +36,83 @@ input_t getKey(void) {
     }
 }
 
+int runGame(const game_settings_t* settings) {
+    
+    
+    initGraphics(settings->_timeout);
+    
+    snake_t snake;
+    food_t food;
+    input_t key = K_NONE;
+    state_t gamestate = PLAYING;
+    int error = 0;
+
+    if( initSnake(&snake, settings->init_x, settings->init_y, settings->init_orient, settings->init_length) == HEAP_ERR) {
+        endwin();
+        return HEAP_ERR;
+    }
+    
+    food = newFood(snake.head, B_COL, B_ROW);
+    if( printGameInit(&snake, settings->width, settings->height) == INPUT_ERR) return INPUT_ERR;
+
+    while(gamestate == PLAYING) {
+        
+        key = getKey();
+
+        eraseInBoard(snake.tail->x, snake.tail->y);
+        switch(key) {
+            case K_DOWN:
+            case K_LEFT:
+            case K_RIGHT:
+            case K_UP:
+                update(&snake, (direction_t) key);
+                break;
+            case K_NONE:
+                update(&snake, snake.head->orient);
+                break;
+            case K_PAUSE:
+                gamestate = PAUSE;
+                break;
+            default:
+                gamestate = GAMEOVER;
+                error = INPUT_ERR;
+                break;
+        }
+        
+        if( checkFood(&food, &snake, settings->width, settings->height) == HEAP_ERR) {
+            gamestate = GAMEOVER;
+            error = HEAP_ERR;
+        } else {
+            printInBoard(snake.head, snake.tail, &food);
+            // Print head, new food & re-print tail
+            if( COLLISION(snake.head, settings->width, settings->height) ) gamestate = GAMEOVER;
+        
+        }
+        
+        refresh();
+    }
+
+    if(error) {
+        clear();
+        printw("ERROOOOOOOOOOOR\n\n");
+        // This should better after, probably a routine in the graphics lib
+    } else {
+        printGameOver();
+    }
+
+    freeAll(snake.head);
+
+    timeout(-1);
+    getch();
+    clear();
+    endwin();
+
+    return 0;
+
+}
+
+/*
+
 int runGame(int width, int height, int gametick_ms, int init_x, int init_y, direction_t init_orient, unsigned int init_length) {
     
     gameInfo thisGame;
@@ -112,3 +189,4 @@ int runGame(int width, int height, int gametick_ms, int init_x, int init_y, dire
 
 }
 
+*/

@@ -4,27 +4,25 @@
 
 
 //still have to make struct with data and the storage in a file
-void getName (gameInfo* thisGame)
+void getName (char* name)
 {
-    printf("please input your name(max %d characters)", NAME_MAX);
+    printf("Please input your name (max %d characters)", NAME_MAX);
 
     char c;
     int i;
     for(i=0; (c=getchar())!='\n' && i<NAME_MAX;i++)
     {
-        (thisGame->name)[i] = c;
-        
+        name[i] = c;
+    }
+    while(c != '\n' && c != EOF) {
+        c = getchar();
     }
     return;
 }
 
-
-
-
-
 void storeGame(gameInfo* thisGame, snake_t* snake)
 {
-    //creates/opens the file
+    // creates/opens the file
     FILE* gameFile = fopen("build/scores", "a+");
     int i;
 

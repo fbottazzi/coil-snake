@@ -26,7 +26,7 @@ int main(void)
 
     // Testing initSnake
     printf("Running initSnake\n");
-    if( initSnake(&test_snake, 4, 5, N, 3) < 0) {
+    if( initSnake(&test_snake, 4, 5, N, 7) < 0) {
         printf("Heap error\n");
     }
     printNodeList(test_snake.head, NEXT);
