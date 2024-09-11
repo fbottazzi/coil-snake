@@ -36,16 +36,56 @@ input_t getKey(void) {
     }
 }
 
+int runGame_v2(const game_settings_t* settings) {
+
+    // Initialization of ncurses
+    initGraphics(settings->_timeout);
+    
+    // Initialization of values
+    snake_t snake;
+    if( initSnake(&snake, settings->init_x, settings->init_y, settings->init_orient, settings->init_length) == HEAP_ERR) {
+        endwin();
+        return HEAP_ERR;
+    }
+
+    food_t food = newFood(snake.head, B_COL, B_ROW);
+    state_t gamestate = PLAYING;
+    int result = 0, score_accum = 0, lives = settings->lives;
+    
+
+    // Build board
+    if( printGameInit(&snake, settings->width, settings->height) == INPUT_ERR) return INPUT_ERR;
+
+    gamestate = play(&snake, &food, settings, &result);
+
+    if(result < 0) {
+        clear();
+        printw("ERROOOOOOOOOOOR\n\n");
+        // This should better after, probably a routine in the graphics lib
+    } else {
+        score_accum += result;
+        printGameOver();
+    }
+
+    freeAll(snake.head);
+
+    timeout(-1);
+    getch();
+    clear();
+    endwin();
+
+    return 0;
+}
+
 int runGame(const game_settings_t* settings) {
-    
-    
+    /*
     initGraphics(settings->_timeout);
     
     snake_t snake;
     food_t food;
     input_t key = K_NONE;
     state_t gamestate = PLAYING;
-    int error = 0;
+    int error = 0, lives = settings->lives;
 
     if( initSnake(&snake, settings->init_x, settings->init_y, settings->init_orient, settings->init_length) == HEAP_ERR) {
         endwin();
@@ -106,87 +146,75 @@ int runGame(const game_settings_t* settings) {
     getch();
     clear();
     endwin();
-
+    */
     return 0;
-
 }
 
-/*
+/* Dibujar la snake
+   Crear una food (la inicial es recibida)
+   Gametick -> update hasta que:
+   * Presione pausa en un cierto gametick (el juego va a "quedar" en ese gametick) -> devuelve pause
+   * Haya una collision -> devuelve GAMEOVER
+*/
 
-int runGame(int width, int height, int gametick_ms, int init_x, int init_y, direction_t init_orient, unsigned int init_length) {
-    
-    gameInfo thisGame;
-    getName(&thisGame);
+state_t play(snake_t* snake, food_t* food, const game_settings_t* settings, int* score) {
 
-    initGraphics(gametick_ms);
-    srand(time(NULL));
-
-    snake_t snake;
-    food_t food;
     input_t key = K_NONE;
-    state_t gamestate = PLAYING;
-    int error = 0;
+    int ans;
 
-    if( initSnake(&snake, init_x, init_y, init_orient, init_length) == HEAP_ERR) {
-        endwin();
-        return HEAP_ERR;
-    }
+    printSnake(snake);
+    printInBoard(NULL, NULL, food);
 
-    food = newFood(snake.head, init_x, init_y);
-    printGameInit(&snake, width, height);
-
-    while(gamestate == PLAYING) {
-        
+    while(1) {
+    
+        // Wait one gametick (settings->_timeout miliseconds) and get input
         key = getKey();
+        
+        // Erase tail on the screen before deleting it on memory
+        eraseInBoard(snake->tail->x, snake->tail->y);
 
-        eraseInBoard(snake.tail->x, snake.tail->y);
+        // First update
         switch(key) {
             case K_DOWN:
             case K_LEFT:
             case K_RIGHT:
             case K_UP:
-                update(&snake, (direction_t) key);
+                update(snake, (direction_t) key);
                 break;
             case K_NONE:
-                update(&snake, snake.head->orient);
+                update(snake, snake->head->orient);
                 break;
             case K_PAUSE:
-                gamestate = PAUSE;
-                break;
-            default:
-                gamestate = GAMEOVER;
-                error = INPUT_ERR;
-                break;
+                return PAUSE;
         }
         
-        if( checkFood(&food, &snake, init_x, init_y) == HEAP_ERR) {
-            gamestate = GAMEOVER;
-            error = HEAP_ERR;
-        } else {
-            printInBoard(snake.head, snake.tail, &food);
-            // Print head, new food & re-print tail
-            if( COLLISION(snake.head, init_x, init_y) ) gamestate = GAMEOVER;
-        
+        // Then check if food has to change and snake has to grow, or to die
+        ans = checkFood(food, snake, settings->width, settings->height); // checkFood updates the snake and food if necesary        
+        if(ans < 0) {
+            *score = ans;
+            return GAMEOVER;
         }
+
+        // Check for collision
+        ans = WALLCOLLISION(snake->head, settings->width, settings->height) ? 1 : 0;
+        if( ans || isInsideSnake(snake->head->x, snake->head->y, snake->head->p2next) ) {
+            
+            printInBoard(NULL, snake->tail, food);
+            refresh();
+            napms(1000);
+            eraseSnake(snake, 1);
+            eraseInBoard(food->x, food->y);
+            *score = snake->size;
+            return GAMEOVER;
+            
+        }
+        
+        // Print head, new food &, if snake grew, re-print tail
+        // No need on erasing old food because if it was eaten, it gets overwritten by the head
+        printInBoard(snake->head, snake->tail, food);
         
         refresh();
     }
 
-    if(error) {
-        clear();
-        printw("ERROOOOOOOOOOOR\n\n");
-        // This should better after, probably a routine in the graphics lib
-    } else {
-        printGameOver();
-    }
-
-    freeAll(snake.head);
-    endwin();
-
-    storeGame(&thisGame, &snake);
-    
-    return error ? error : snake.size;
-
+    return PAUSE;
 }
-
-*/

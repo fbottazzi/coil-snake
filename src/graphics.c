@@ -56,7 +56,6 @@ int printGameInit(const snake_t* snake, int width, int height) {
     if(snake == NULL || width < 0 || height < 0)    return INPUT_ERR;
     
     int i;
-    part_t* part;
 
     // Top wall
     move(Y_0-1, X_0-1);
@@ -77,15 +76,32 @@ int printGameInit(const snake_t* snake, int width, int height) {
     }
 
     // Snake
+    // printSnake(snake);
+
+    move(Y_0+height+1, X_0-1); // For testing purposes
+    return 0;
+
+}
+
+void printSnake(const snake_t* snake) {
+
     DRAWCOORD(snake->head, symbols[HEAD]);
     DRAWCOORD(snake->tail, symbols[TAIL]);
 
+    const part_t* part;
     for(part = snake->head->p2next; part != NULL; part = part->p2next) {
         DRAWCOORD(part, symbols[BODY]);
     }
 
-    move(Y_0+height+1, X_0-1); // For testing purposes
-    return 0;
+}
+
+void eraseSnake(const snake_t* snake, int reprintwall) {
+    
+    const part_t* part;
+    for(part = snake->head; part != NULL; part = part->p2next) {
+        eraseInBoard(part->x, part->y);
+    }
+    if(reprintwall) DRAWCOORD(snake->head, symbols[WALL]);
 
 }
 

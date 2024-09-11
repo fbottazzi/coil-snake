@@ -17,11 +17,11 @@ int main(void) {
     srand(time(NULL));
 
     game_settings_t settings = {
-        B_COL, B_ROW,
-        TIMEOUT,
-        BC_X+5, BC_Y-5, N, 6
+        .width = B_COL, .height = B_ROW,
+        ._timeout = TIMEOUT, .lives = 3,
+        .init_x = BC_X+5, .init_y = BC_Y-5, .init_orient = N, .init_length = 6
     };
-    runGame(&settings);
+    runGame_v2(&settings);
 
     return 0;
 

@@ -25,23 +25,22 @@ typedef struct {
     int width;
     int height;
     int _timeout;
+    int lives;
+
     int init_x;
     int init_y;
     direction_t init_orient;
     unsigned init_length;
+
 } game_settings_t;
 
-
 // Boolean comparison that returns 1 if the head is inside the border or a body part
-#define COLLISION(phead, width, height) ( \
+#define WALLCOLLISION(phead, width, height) ( \
     (phead)->x < 0 || (phead)->x >= (width) || \
-    (phead)->y < 0 || (phead)->y >= (height) || \
-    isInsideSnake((phead)->x, (phead)->y, (phead)->p2next) \
+    (phead)->y < 0 || (phead)->y >= (height) \
 )
 
-
-
-/* ======================= */
+/* ========= */
 /* Functions */
 
 // Checks for key input, returns NONE if
@@ -50,7 +49,8 @@ input_t getKey(void);
 
 int runGame(const game_settings_t* settings);
 
-// int runGame(int width, int height, int gametick_ms, int init_x, int init_y, direction_t init_orient, unsigned int init_length);
+int runGame_v2(const game_settings_t* settings);
 
+state_t play(snake_t* snake, food_t* food, const game_settings_t* settings, int* score);
 
 #endif // GAME_RULES_H
