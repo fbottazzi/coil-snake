@@ -91,7 +91,6 @@ int runGame(const game_settings_t* settings) {
    * Presione pausa en un cierto gametick (el juego va a "quedar" en ese gametick) -> devuelve pause
    * Haya una collision -> devuelve GAMEOVER
 */
-
 state_t play(snake_t* snake, food_t* food, const game_settings_t* settings, int* score) {
 
     input_t key = K_NONE;
