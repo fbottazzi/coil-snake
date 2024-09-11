@@ -7,6 +7,7 @@
 #include "game_rules.h"
 
 #define TOUPPER(c) ('a'<=(c) && (c)<='z' ? (c)+'A'-'a' : (c) )
+#define DELAY_TIME 1000
 
 input_t getKey(void) {
     
@@ -36,117 +37,51 @@ input_t getKey(void) {
     }
 }
 
-int runGame_v2(const game_settings_t* settings) {
+int runGame(const game_settings_t* settings) {
 
-    // Initialization of ncurses
+    // Initialization of ncurses, some counters and game board
     initGraphics(settings->_timeout);
-    
-    // Initialization of values
-    snake_t snake;
-    if( initSnake(&snake, settings->init_x, settings->init_y, settings->init_orient, settings->init_length) == HEAP_ERR) {
-        endwin();
-        return HEAP_ERR;
-    }
-
-    food_t food = newFood(snake.head, B_COL, B_ROW);
-    state_t gamestate = PLAYING;
     int result = 0, score_accum = 0, lives = settings->lives;
-    
+    state_t gamestate = PLAYING;
+    if( printGameInit(settings->width, settings->height) == INPUT_ERR) return INPUT_ERR;
 
-    // Build board
-    if( printGameInit(&snake, settings->width, settings->height) == INPUT_ERR) return INPUT_ERR;
 
-    gamestate = play(&snake, &food, settings, &result);
+    while(lives > 0) {
+
+        snake_t snake;
+        // Initialization of values
+        result = initSnake(&snake, settings->init_x, settings->init_y, settings->init_orient, settings->init_length);
+        if(result < 0) break;
+
+        food_t food = newFood(snake.head, B_COL, B_ROW);
+
+        // Play until death
+        gamestate = play(&snake, &food, settings, &result);
+        if(result < 0) break;
+        
+        lives --;
+        score_accum = (result > score_accum) ? result : score_accum;
+
+        freeAll(snake.head);
+
+    }
 
     if(result < 0) {
+        
         clear();
-        printw("ERROOOOOOOOOOOR\n\n");
-        // This should better after, probably a routine in the graphics lib
-    } else {
-        score_accum += result;
-        printGameOver();
-    }
-
-    freeAll(snake.head);
-
-    timeout(-1);
-    getch();
-    clear();
-    endwin();
-
-    return 0;
-}
-
-int runGame(const game_settings_t* settings) {
-    /*
-    initGraphics(settings->_timeout);
-    
-    snake_t snake;
-    food_t food;
-    input_t key = K_NONE;
-    state_t gamestate = PLAYING;
-    int error = 0, lives = settings->lives;
-
-    if( initSnake(&snake, settings->init_x, settings->init_y, settings->init_orient, settings->init_length) == HEAP_ERR) {
-        endwin();
-        return HEAP_ERR;
-    }
-    
-    food = newFood(snake.head, B_COL, B_ROW);
-    if( printGameInit(&snake, settings->width, settings->height) == INPUT_ERR) return INPUT_ERR;
-
-    while(gamestate == PLAYING) {
-        
-        key = getKey();
-
-        eraseInBoard(snake.tail->x, snake.tail->y);
-        switch(key) {
-            case K_DOWN:
-            case K_LEFT:
-            case K_RIGHT:
-            case K_UP:
-                update(&snake, (direction_t) key);
-                break;
-            case K_NONE:
-                update(&snake, snake.head->orient);
-                break;
-            case K_PAUSE:
-                gamestate = PAUSE;
-                break;
-            default:
-                gamestate = GAMEOVER;
-                error = INPUT_ERR;
-                break;
-        }
-        
-        if( checkFood(&food, &snake, settings->width, settings->height) == HEAP_ERR) {
-            gamestate = GAMEOVER;
-            error = HEAP_ERR;
-        } else {
-            printInBoard(snake.head, snake.tail, &food);
-            // Print head, new food & re-print tail
-            if( COLLISION(snake.head, settings->width, settings->height) ) gamestate = GAMEOVER;
-        
-        }
-        
+        printw("ERROR. Press any key to go back to main menu\n\n");
         refresh();
-    }
-
-    if(error) {
-        clear();
-        printw("ERROOOOOOOOOOOR\n\n");
-        // This should better after, probably a routine in the graphics lib
+        napms(500);
+        timeout(-1);
+        getch();
+    
     } else {
         printGameOver();
     }
 
-    freeAll(snake.head);
-
-    timeout(-1);
-    getch();
     clear();
     endwin();
-    */
+
     return 0;
 }
 
@@ -164,6 +99,9 @@ state_t play(snake_t* snake, food_t* food, const game_settings_t* settings, int*
 
     printSnake(snake);
     printInBoard(NULL, NULL, food);
+    refresh();
+    napms(DELAY_TIME);
+    flushinp();
 
     while(1) {
     
@@ -201,7 +139,7 @@ state_t play(snake_t* snake, food_t* food, const game_settings_t* settings, int*
             
             printInBoard(NULL, snake->tail, food);
             refresh();
-            napms(1000);
+            napms(DELAY_TIME);
             eraseSnake(snake, 1);
             eraseInBoard(food->x, food->y);
             *score = snake->size;

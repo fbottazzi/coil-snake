@@ -21,7 +21,7 @@ int main(void) {
         ._timeout = TIMEOUT, .lives = 3,
         .init_x = BC_X+5, .init_y = BC_Y-5, .init_orient = N, .init_length = 6
     };
-    runGame_v2(&settings);
+    runGame(&settings);
 
     return 0;
 

@@ -49,8 +49,6 @@ input_t getKey(void);
 
 int runGame(const game_settings_t* settings);
 
-int runGame_v2(const game_settings_t* settings);
-
 state_t play(snake_t* snake, food_t* food, const game_settings_t* settings, int* score);
 
 #endif // GAME_RULES_H

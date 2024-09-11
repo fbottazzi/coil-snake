@@ -52,8 +52,8 @@ void initGraphics(int _timeout) {
 
 }
 
-int printGameInit(const snake_t* snake, int width, int height) {
-    if(snake == NULL || width < 0 || height < 0)    return INPUT_ERR;
+int printGameInit(int width, int height) {
+    if(width < 0 || height < 0)    return INPUT_ERR;
     
     int i;
 
@@ -74,9 +74,6 @@ int printGameInit(const snake_t* snake, int width, int height) {
         mvprintw(i, X_0-1, "%s", symbols[WALL]);
         mvprintw(i, X_0+width, "%s", symbols[WALL]);
     }
-
-    // Snake
-    // printSnake(snake);
 
     move(Y_0+height+1, X_0-1); // For testing purposes
     return 0;
@@ -141,10 +138,11 @@ void printGameOver(void) {
     "Press any key to go back to main menu "
     );
 
+    refresh();
+    napms(500);
     curs_set(TRUE);
-    timeout(-1);    
-
-    while( getch() != '\n')    ;
+    timeout(-1);
+    getch();
 
     clear();
     return;

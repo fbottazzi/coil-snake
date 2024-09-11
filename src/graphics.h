@@ -9,7 +9,7 @@ void initGraphics(int _timeout);
 
 // Prints the walls & the snake
 // On NULL pointers or negative width/height, returns INPUT_ERR, else returns 0
-int printGameInit(const snake_t* snake, int width, int height);
+int printGameInit(int width, int height);
 
 void printSnake(const snake_t* snake);
 
