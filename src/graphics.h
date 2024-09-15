@@ -26,5 +26,8 @@ void eraseSnake(const snake_t* snake, int reprintwall);
 // Erases the board and prints the game over message
 void printGameOver(void);
 
+//prints score and lives during the game
+void printHeader(int score, int lives);
+
 
 #endif // GRAPHICS_H

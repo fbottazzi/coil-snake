@@ -14,10 +14,12 @@ typedef struct{
     unsigned int score;
     
 
-} gameInfo;
+}gameInfo_t;
 
+
+//functions definitions
 void getName (char* name);
-void storeGame(gameInfo* thisGame, snake_t* snake);
+void storeGame(gameInfo_t* thisGame);
 
 #endif
 

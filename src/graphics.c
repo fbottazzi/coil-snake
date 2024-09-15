@@ -148,3 +148,10 @@ void printGameOver(void) {
     return;
     // Fuente https://patorjk.com/software/taag/#p=testall&f=Graffiti&t=GAME%20OVER
 }
+
+
+void printHeader(int score, int lives)
+{
+    mvprintw(Y_0-2,X_0,"Score: %d   Lives:%d",score,lives);
+    return;
+}

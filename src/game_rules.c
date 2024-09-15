@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include "consts.h"
 #include "graphics.h"
-#include "gameInfo.h"
+
 #include "game_rules.h"
 
 #define TOUPPER(c) ('a'<=(c) && (c)<='z' ? (c)+'A'-'a' : (c) )
@@ -38,6 +38,8 @@ input_t getKey(void) {
 }
 
 int runGame(const game_settings_t* settings) {
+    gameInfo_t thisGame;
+    getName(thisGame.name);
 
     // Initialization of ncurses, some counters and game board
     initGraphics(settings->_timeout);
@@ -56,13 +58,15 @@ int runGame(const game_settings_t* settings) {
         food_t food = newFood(snake.head, B_COL, B_ROW);
 
         // Play until death
-        gamestate = play(&snake, &food, settings, &result);
+        gamestate = play(&snake, &food, settings, &result, lives,&thisGame);
         if(result < 0) break;
         
         lives --;
         score_accum = (result > score_accum) ? result : score_accum;
+        thisGame.score=score_accum;
 
         freeAll(snake.head);
+        
 
     }
 
@@ -76,6 +80,7 @@ int runGame(const game_settings_t* settings) {
         getch();
     
     } else {
+        storeGame(&thisGame);
         printGameOver();
     }
 
@@ -91,7 +96,7 @@ int runGame(const game_settings_t* settings) {
    * Presione pausa en un cierto gametick (el juego va a "quedar" en ese gametick) -> devuelve pause
    * Haya una collision -> devuelve GAMEOVER
 */
-state_t play(snake_t* snake, food_t* food, const game_settings_t* settings, int* score) {
+state_t play(snake_t* snake, food_t* food, const game_settings_t* settings, int* score, int lives,gameInfo_t* thisGame){
 
     input_t key = K_NONE;
     int ans;
@@ -149,6 +154,10 @@ state_t play(snake_t* snake, food_t* food, const game_settings_t* settings, int*
         // Print head, new food &, if snake grew, re-print tail
         // No need on erasing old food because if it was eaten, it gets overwritten by the head
         printInBoard(snake->head, snake->tail, food);
+
+        
+
+        printHeader(thisGame->score+*score, lives);
         
         refresh();
     }

@@ -20,7 +20,7 @@ void getName (char* name)
     return;
 }
 
-void storeGame(gameInfo* thisGame, snake_t* snake)
+void storeGame(gameInfo_t* thisGame)
 {
     // creates/opens the file
     FILE* gameFile = fopen("build/scores", "a+");
@@ -34,8 +34,6 @@ void storeGame(gameInfo* thisGame, snake_t* snake)
     //prints the name in the file
     fprintf(gameFile, "%s",thisGame->name);
 
-    //assigns the score
-    thisGame->score=snake->size;
 
     //prints the score
     fprintf(gameFile, "; %d; ",thisGame->score);

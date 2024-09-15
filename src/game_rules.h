@@ -4,6 +4,7 @@
 #include "body.h"
 #include "food.h"
 #include "progstates.h"
+#include "gameInfo.h"
 
 
 
@@ -49,6 +50,6 @@ input_t getKey(void);
 
 int runGame(const game_settings_t* settings);
 
-state_t play(snake_t* snake, food_t* food, const game_settings_t* settings, int* score);
+state_t play(snake_t* snake, food_t* food, const game_settings_t* settings, int* score, int lives,gameInfo_t* thisGame);
 
 #endif // GAME_RULES_H
