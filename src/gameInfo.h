@@ -16,7 +16,7 @@ typedef struct{
 
 } gameInfo;
 
-void getName (gameInfo* thisGame);
+void getName (char* name);
 void storeGame(gameInfo* thisGame, snake_t* snake);
 
 #endif
