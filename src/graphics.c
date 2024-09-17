@@ -8,8 +8,10 @@
 /* ================ */
 /* Constants & globals */
 
-#define Y_0 8
+#define Y_0 8 // Min value: 2
 #define X_0 2
+#define SCORE_WIDTH 6
+#define MAX_SCORE 999999
 
 #define DELAY_MS_AFTER_SNAKE_PRINT 800
 #define DELAY_MS_FOR_CURSSET_ENABLE 500
@@ -45,13 +47,13 @@ const char* symbols[] = {
 /* Functions */
 
 void initGraphics(int _timeout) {
-
+    _timeout++;
     initscr();
     noecho();
     keypad(stdscr, TRUE);
     cbreak();
     curs_set(FALSE);
-    timeout(_timeout);
+    nodelay(stdscr, TRUE);
 
 }
 
@@ -104,7 +106,7 @@ void printSnake(const snake_t* snake, const food_t* food) {
 
 void printHeader(int score, int lives)
 {
-    mvprintw(Y_0-2,X_0,"Score: %d   Lives:%d",score,lives);
+    mvprintw(Y_0-2, X_0, "Score: %*d   Lives: %d", SCORE_WIDTH, score < MAX_SCORE ? score : MAX_SCORE, lives);
     refresh();
 }
 

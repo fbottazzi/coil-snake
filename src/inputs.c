@@ -44,30 +44,35 @@ void getName (char* name)
 #include <ncurses.h>
 
 
-input_t getInput(void) {
+input_t getInput(int _timeout) {
     
+    flushinp();
+    napms(_timeout);
     int c = getch();
+    input_t ans;
     switch( TOUPPER(c) ) {
         case 'W':
         case KEY_UP:
-            return K_UP;
-        
+            ans = K_UP;
+            break;        
         case KEY_LEFT:
         case 'A':
-            return K_LEFT;
-        
+            ans = K_LEFT;
+            break;
         case KEY_RIGHT:
         case 'D':
-            return K_RIGHT;
-        
+            ans = K_RIGHT;
+            break;
         case KEY_DOWN:
         case 'S':
-            return K_DOWN;
-        
+            ans = K_DOWN;
+            break;
         case 'Q':
-            return K_PAUSE;
-        
+            ans = K_PAUSE;
+            break;
         default:
-            return K_NONE;
+            ans = K_NONE;
+            break;
     }
+    return ans;
 }

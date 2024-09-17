@@ -7,7 +7,7 @@
 
 typedef struct{
     char name [NAME_MAX+1];
-    unsigned int score;
+    int score;
     
 } gameinfo_t;
 

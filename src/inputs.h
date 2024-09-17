@@ -23,6 +23,6 @@ void getName (char* name);
 
 // Checks for key input, returns NONE if
 // neither the WASD/arrow keys nor the pause key have been pressed
-input_t getInput(void);
+input_t getInput(int _timeout);
 
 #endif // INPUTS_H

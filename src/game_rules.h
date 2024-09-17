@@ -33,9 +33,8 @@ typedef struct {
 /* ========= */
 /* Functions */
 
+void runGame(const game_settings_t* settings, gameinfo_t* game_info);
 
-int runGame(const game_settings_t* settings);
-
-state_t play(snake_t* snake, food_t* food, const game_settings_t* settings, int* score, int lives, gameinfo_t* thisGame);
+int play(snake_t* snake, const game_settings_t* settings, int* score, int lives);
 
 #endif // GAME_RULES_H

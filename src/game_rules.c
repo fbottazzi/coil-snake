@@ -7,13 +7,18 @@
 
 #include "game_rules.h"
 
-int runGame(const game_settings_t* settings, gameinfo_t* game_info) {
+void runGame(const game_settings_t* settings, gameinfo_t* game_info) {
 
     // Initialization of ncurses, some counters and game board
     initGraphics(settings->_timeout);
     int result = 0, lives = settings->lives;
-    state_t gamestate = PLAYING;
-    if( printGameInit(settings->width, settings->height) == INPUT_ERR) return INPUT_ERR;
+    game_info->score = 0;
+
+    result = printGameInit(settings->width, settings->height);
+    if(result < 0) {
+        printErrorMessage(-result);
+        return;
+    }
 
 
     while(lives > 0) {
@@ -24,15 +29,11 @@ int runGame(const game_settings_t* settings, gameinfo_t* game_info) {
         result = initSnake(&snake, settings->init_x, settings->init_y, settings->init_orient, settings->init_length);
         if(result < 0) break;
 
-        food_t food = newFood(snake.head, B_COL, B_ROW);
-
         // Play until death
-        printSnake(&snake);
-        gamestate = play(&snake, &food, settings, &result, lives, game_info);
+        result = play(&snake, settings, &(game_info->score), lives);
         if(result < 0) break;
+        printHeader(game_info->score, --lives);
         
-        lives --;
-        // game_info->score = (result > game_info->score) ? result : game_info->score;
         
         freeAll(snake.head);
         
@@ -47,25 +48,30 @@ int runGame(const game_settings_t* settings, gameinfo_t* game_info) {
     clear();
     endwin();
 
-    return 0;
+    return;
 }
 
-/* Dibujar la snake
-   Crear una food (la inicial es recibida)
-   Gametick -> update hasta que:
+/* Gametick -> update hasta que:
    * Presione pausa en un cierto gametick (el juego va a "quedar" en ese gametick) -> devuelve pause
    * Haya una collision -> devuelve GAMEOVER
 */
-state_t play(snake_t* snake, food_t* food, const game_settings_t* settings, int* score, int lives,gameinfo_t* this_game) {
+int play(snake_t* snake, const game_settings_t* settings, int* score, int lives) {
 
+    if(snake == NULL || settings == NULL || score == NULL) {
+        return INPUT_ERR;
+    }
+
+    food_t food = newFood(snake->head, settings->width, settings->height);
     input_t input = K_NONE;
     int ans;
+    
 
-
+    printSnake(snake, &food);
+    
     while(1) {
     
         // Wait one gametick (settings->_timeout miliseconds) and get input
-        input = getInput();
+        input = getInput(settings->_timeout);
         
         // Erase tail on the screen before deleting it on memory
         eraseInBoard(snake->tail->x, snake->tail->y);
@@ -86,33 +92,30 @@ state_t play(snake_t* snake, food_t* food, const game_settings_t* settings, int*
         }
         
         // Then check if food has to change and snake has to grow, or to die
-        ans = checkFood(food, snake, settings->width, settings->height); // checkFood updates the snake and food if necesary        
+        ans = checkFood(&food, snake, settings->width, settings->height); // checkFood updates the snake and food if necesary        
         if(ans < 0) {
-            *score = ans;
-            return GAMEOVER;
+            return ans;
         }
 
         // Check for collision
         ans = WALLCOLLISION(snake->head, settings->width, settings->height) ? 1 : 0;
         if( ans || isInsideSnake(snake->head->x, snake->head->y, snake->head->p2next) ) {
             
-            printInBoard(NULL, snake->tail, food);
-            refresh();
-            napms(1000);
-            eraseSnake(snake, 1);
-            eraseInBoard(food->x, food->y);
-            *score = snake->size;
+            // MAKE THIS A FUNCTION
+                            printInBoard(NULL, snake->tail, &food);
+                            napms(1000);
+                            eraseSnake(snake, ans);
+                            eraseInBoard(food.x, food.y);
+            //
+            *score += snake->size;
             return GAMEOVER;
             
         }
-        
+
         // Print head, new food &, if snake grew, re-print tail
         // No need on erasing old food because if it was eaten, it gets overwritten by the head
-        printInBoard(snake->head, snake->tail, food);
-
-        
-
-        printHeader(this_game->score+*score, lives);
+        printInBoard(snake->head, snake->tail, &food);
+        printHeader(*score + snake->size, lives);
         
         refresh();
     }

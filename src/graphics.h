@@ -11,7 +11,7 @@ void initGraphics(int _timeout);
 // On NULL pointers or negative width/height, returns INPUT_ERR, else returns 0
 int printGameInit(int width, int height);
 
-void printSnake(const snake_t* snake);
+void printSnake(const snake_t* snake, const food_t* food);
 
 //prints score and lives during the game
 void printHeader(int score, int lives);
