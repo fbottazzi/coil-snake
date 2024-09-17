@@ -10,16 +10,15 @@
 
 
 typedef struct{
-    char name[NAME_MAX];
+    char name [NAME_MAX];
     unsigned int score;
     
-
-}gameInfo_t;
+} gameinfo_t;
 
 
 //functions definitions
 void getName (char* name);
-void storeGame(gameInfo_t* thisGame);
+void storeGame(const gameinfo_t* thisGame);
 
 #endif
 

@@ -9,34 +9,6 @@
 #define TOUPPER(c) ('a'<=(c) && (c)<='z' ? (c)+'A'-'a' : (c) )
 #define DELAY_TIME 1000
 
-input_t getKey(void) {
-    
-    int c = getch();
-    switch( TOUPPER(c) ) {
-        case 'W':
-        case KEY_UP:
-            return K_UP;
-        
-        case KEY_LEFT:
-        case 'A':
-            return K_LEFT;
-        
-        case KEY_RIGHT:
-        case 'D':
-            return K_RIGHT;
-        
-        case KEY_DOWN:
-        case 'S':
-            return K_DOWN;
-        
-        case 'Q':
-            return K_PAUSE;
-        
-        default:
-            return K_NONE;
-    }
-}
-
 int runGame(const game_settings_t* settings) {
     gameInfo_t thisGame;
     getName(thisGame.name);

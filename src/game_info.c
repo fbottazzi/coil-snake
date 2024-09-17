@@ -1,24 +1,9 @@
-#include "gameInfo.h"
+#include "game_info.h"
 
 #include <stdio.h>
 
 
 //still have to make struct with data and the storage in a file
-void getName (char* name)
-{
-    printf("Please input your name (max %d characters)", NAME_MAX);
-
-    char c;
-    int i;
-    for(i=0; (c=getchar())!='\n' && i<NAME_MAX;i++)
-    {
-        name[i] = c;
-    }
-    while(c != '\n' && c != EOF) {
-        c = getchar();
-    }
-    return;
-}
 
 void storeGame(gameInfo_t* thisGame)
 {
