@@ -3,22 +3,17 @@
 
 #include <stdlib.h>
 #include "body.h"
-
-#define NAME_MAX 8
-#define NAME_ERR -8
-#define CHARS_IN_DATE 9
-
+#include "consts.h"
 
 typedef struct{
-    char name [NAME_MAX];
+    char name [NAME_MAX+1];
     unsigned int score;
     
 } gameinfo_t;
 
 
 //functions definitions
-void getName (char* name);
-void storeGame(const gameinfo_t* thisGame);
+int storeGame(const gameinfo_t* thisGame);
 
 #endif
 

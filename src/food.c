@@ -1,5 +1,3 @@
-// 10.08: MUST TEST
-
 #include <stdlib.h>
 #include "consts.h"
 #include "food.h"

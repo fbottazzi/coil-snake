@@ -2,6 +2,7 @@
 #define INPUTS_H
 
 #include "body.h"
+#include "consts.h"
 
 typedef enum {
     K_UP = N,
@@ -20,6 +21,6 @@ void getName (char* name);
 
 // Checks for key input, returns NONE if
 // neither the WASD/arrow keys nor the pause key have been pressed
-input_t getKey(void);
+input_t getInput(void);
 
 #endif // INPUTS_H

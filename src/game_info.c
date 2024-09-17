@@ -1,33 +1,26 @@
 #include "game_info.h"
+#include "consts.h"
 
 #include <stdio.h>
 
+#define HISTORY_LOG_ROUTE "build/scores"
 
 //still have to make struct with data and the storage in a file
 
-void storeGame(gameInfo_t* thisGame)
+int storeGame(const gameinfo_t* this_game)
 {
     // creates/opens the file
-    FILE* gameFile = fopen("build/scores", "a+");
-    int i;
+    FILE* games_file = fopen(HISTORY_LOG_ROUTE, "a+");
+    if(games_file==NULL) return FILE_ERR;
 
-    if(gameFile==NULL)//checks if some error ocurred
-    {
-        return;
-    }
+    // Print name, score in the file in new line
+    int i = 0;
+    if(i >= 0) i = fprintf(games_file, "%s", this_game->name);
+    if(i >= 0) i = fprintf(games_file, "; %d", this_game->score);
+    if(i >= 0) i = fprintf(games_file, "\n"); // Use line break as terminator
 
-    //prints the name in the file
-    fprintf(gameFile, "%s",thisGame->name);
-
-
-    //prints the score
-    fprintf(gameFile, "; %d; ",thisGame->score);
-
-    //always ends in a new line and prints the date
-    fprintf(gameFile,"%s \n", __DATE__);
-
-    //closes file and commits the buffer
-    fclose(gameFile);
-    return;
+    // Close file and commit the buffer
+    fclose(games_file);
+    return (i < 0) ? FILE_ERR : 0;
 
 }
