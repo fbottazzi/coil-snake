@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <time.h>
 
+#define TOUPPER(c) ('a'<=(c) && (c)<='z' ? (c)+'A'-'a' : (c) )
 
 void getName (char* name)
 {
@@ -40,6 +41,7 @@ void getName (char* name)
 }
 
 #include <ncurses.h>
+
 
 input_t getInput(void) {
     
