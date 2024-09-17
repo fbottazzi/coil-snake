@@ -1,13 +1,14 @@
 #include "inputs.h"
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <time.h>
 
 #define TOUPPER(c) ('a'<=(c) && (c)<='z' ? (c)+'A'-'a' : (c) )
 
 void getName (char* name)
 {
-    
+    system("clear");
     printf("Please input your name (maximum %d characters):\n", NAME_MAX);
 
     char c;
@@ -33,8 +34,8 @@ void getName (char* name)
         c = getchar();
     }
 
-    while(clock() - start < CLOCKS_PER_SEC/2) ;
-    fflush(stdout);
+    while(clock() - start < GETNAME_DELAY_MS*CLOCKS_PER_SEC/1000) ;
+    system("clear");
 
     return;
 

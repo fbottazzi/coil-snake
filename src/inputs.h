@@ -4,6 +4,8 @@
 #include "body.h"
 #include "consts.h"
 
+#define GETNAME_DELAY_MS 5000
+
 typedef enum {
     K_UP = N,
     K_LEFT = W,

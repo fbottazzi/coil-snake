@@ -11,6 +11,9 @@
 #define Y_0 8
 #define X_0 2
 
+#define DELAY_MS_AFTER_SNAKE_PRINT 800
+#define DELAY_MS_FOR_CURSSET_ENABLE 500
+
 enum {
     NONE = 0,
     WALL,
@@ -80,8 +83,10 @@ int printGameInit(int width, int height) {
 
 }
 
-void printSnake(const snake_t* snake) {
 
+void printSnake(const snake_t* snake, const food_t* food) {
+
+    // Print the snake
     DRAWCOORD(snake->head, symbols[HEAD]);
     DRAWCOORD(snake->tail, symbols[TAIL]);
 
@@ -89,21 +94,23 @@ void printSnake(const snake_t* snake) {
     for(part = snake->head->p2next; part != NULL; part = part->p2next) {
         DRAWCOORD(part, symbols[BODY]);
     }
+    
+    printInBoard(NULL, NULL, food);
+    refresh();
+    napms(DELAY_MS_AFTER_SNAKE_PRINT);
 
 }
 
-void eraseSnake(const snake_t* snake, int reprintwall) {
-    
-    const part_t* part;
-    for(part = snake->head; part != NULL; part = part->p2next) {
-        eraseInBoard(part->x, part->y);
-    }
-    if(reprintwall) DRAWCOORD(snake->head, symbols[WALL]);
 
+void printHeader(int score, int lives)
+{
+    mvprintw(Y_0-2,X_0,"Score: %d   Lives:%d",score,lives);
+    refresh();
 }
 
 void eraseInBoard(int x, int y) {
     mvprintw(Y_0 + y, X_0 + x, "%s", symbols[NONE]);
+    refresh();
 }
 
 void printInBoard(const part_t* head, const part_t* tail, const food_t* food) {
@@ -120,6 +127,19 @@ void printInBoard(const part_t* head, const part_t* tail, const food_t* food) {
         DRAWCOORD(head, symbols[HEAD]);
     }
 
+    refresh();
+
+}
+
+
+void eraseSnake(const snake_t* snake, int reprintwall) {
+    
+    const part_t* part;
+    for(part = snake->head; part != NULL; part = part->p2next) {
+        eraseInBoard(part->x, part->y);
+    }
+    if(reprintwall) DRAWCOORD(snake->head, symbols[WALL]);
+    refresh();
 
 }
 
@@ -139,19 +159,27 @@ void printGameOver(void) {
     );
 
     refresh();
-    napms(500);
+    napms(DELAY_MS_FOR_CURSSET_ENABLE);
     curs_set(TRUE);
     timeout(-1);
     getch();
-
+    flushinp();
     clear();
     return;
     // Fuente https://patorjk.com/software/taag/#p=testall&f=Graffiti&t=GAME%20OVER
 }
 
-
-void printHeader(int score, int lives)
-{
-    mvprintw(Y_0-2,X_0,"Score: %d   Lives:%d",score,lives);
+void printErrorMessage(int error_code) {
+    clear();
+    printw("\n\nError ocurred with error code %d. Press any key to go back to main menu\n\n", error_code);
+    refresh();
+    
+    napms(DELAY_MS_FOR_CURSSET_ENABLE);
+    curs_set(TRUE);
+    timeout(-1);
+    getch();
+    
+    flushinp();
+    clear();
     return;
 }

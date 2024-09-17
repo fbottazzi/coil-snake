@@ -13,6 +13,9 @@ int printGameInit(int width, int height);
 
 void printSnake(const snake_t* snake);
 
+//prints score and lives during the game
+void printHeader(int score, int lives);
+
 // Updates the head and the new tail, erases the old tail, and prints the new food
 // In case of conflict, priority of printing goes head > food > tail
 // On NULL pointers ignores the parameter and doesn't update/print it
@@ -26,8 +29,7 @@ void eraseSnake(const snake_t* snake, int reprintwall);
 // Erases the board and prints the game over message
 void printGameOver(void);
 
-//prints score and lives during the game
-void printHeader(int score, int lives);
+void printErrorMessage(int error_code);
 
 
 #endif // GRAPHICS_H

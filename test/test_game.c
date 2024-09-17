@@ -1,10 +1,9 @@
+// gcc src/game_rules.c test/test_game.c -o build/test_game -lncurses
+
 #include <ncurses.h>
 #include <time.h>
 #include <stdlib.h>
 #include "../src/game_rules.h"
-#include "../src/body.h"
-#include "../src/graphics.h"
-#include "../src/food.h"
 #include "../src/consts.h"
 #include "../src/progstates.h"
 
@@ -21,7 +20,8 @@ int main(void) {
         ._timeout = TIMEOUT, .lives = 3,
         .init_x = BC_X+5, .init_y = BC_Y-5, .init_orient = N, .init_length = 6
     };
-    runGame(&settings);
+    gameinfo_t game_info;
+    runGame(&settings, &game_info);
 
     return 0;
 

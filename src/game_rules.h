@@ -36,6 +36,6 @@ typedef struct {
 
 int runGame(const game_settings_t* settings);
 
-state_t play(snake_t* snake, food_t* food, const game_settings_t* settings, int* score, int lives,game_info_t* thisGame);
+state_t play(snake_t* snake, food_t* food, const game_settings_t* settings, int* score, int lives, gameinfo_t* thisGame);
 
 #endif // GAME_RULES_H

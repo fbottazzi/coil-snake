@@ -7,14 +7,7 @@
 
 #include "game_rules.h"
 
-#define DELAY_TIME 1000
-
-int runGame(const game_settings_t* settings) {
-
-    // Initialize game info
-    gameinfo_t this_game;
-    getName(this_game.name);
-    this_game.score = 0;
+int runGame(const game_settings_t* settings, gameinfo_t* game_info) {
 
     // Initialization of ncurses, some counters and game board
     initGraphics(settings->_timeout);
@@ -25,35 +18,29 @@ int runGame(const game_settings_t* settings) {
 
     while(lives > 0) {
 
-        snake_t snake;
         // Initialization of values
+        
+        snake_t snake;
         result = initSnake(&snake, settings->init_x, settings->init_y, settings->init_orient, settings->init_length);
         if(result < 0) break;
 
         food_t food = newFood(snake.head, B_COL, B_ROW);
 
         // Play until death
-        gamestate = play(&snake, &food, settings, &result, lives, &this_game);
+        printSnake(&snake);
+        gamestate = play(&snake, &food, settings, &result, lives, game_info);
         if(result < 0) break;
         
         lives --;
-        this_game.score = (result > this_game.score) ? result : this_game.score;
+        // game_info->score = (result > game_info->score) ? result : game_info->score;
         
         freeAll(snake.head);
         
     }
 
     if(result < 0) {
-        
-        clear();
-        printw("ERROR. Press any key to go back to main menu\n\n");
-        refresh();
-        napms(500);
-        timeout(-1);
-        getch();
-    
+        printErrorMessage(-result);
     } else {
-        storeGame(&this_game);
         printGameOver();
     }
 
@@ -69,16 +56,11 @@ int runGame(const game_settings_t* settings) {
    * Presione pausa en un cierto gametick (el juego va a "quedar" en ese gametick) -> devuelve pause
    * Haya una collision -> devuelve GAMEOVER
 */
-state_t play(snake_t* snake, food_t* food, const game_settings_t* settings, int* score, int lives,gameInfo_t* this_game){
+state_t play(snake_t* snake, food_t* food, const game_settings_t* settings, int* score, int lives,gameinfo_t* this_game) {
 
     input_t input = K_NONE;
     int ans;
 
-    printSnake(snake);
-    printInBoard(NULL, NULL, food);
-    refresh();
-    napms(DELAY_TIME);
-    flushinp();
 
     while(1) {
     
@@ -116,7 +98,7 @@ state_t play(snake_t* snake, food_t* food, const game_settings_t* settings, int*
             
             printInBoard(NULL, snake->tail, food);
             refresh();
-            napms(DELAY_TIME);
+            napms(1000);
             eraseSnake(snake, 1);
             eraseInBoard(food->x, food->y);
             *score = snake->size;
