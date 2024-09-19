@@ -3,6 +3,7 @@
 
 #include "food.h"
 #include "body.h"
+#include "progstates.h"
 
 // Initializes and configs the graphics library (ncurses)
 void initGraphics(void);
@@ -25,6 +26,8 @@ void printInBoard(const part_t* head, const part_t* tail, const food_t* food);
 void eraseInBoard(int x, int y);
 
 void eraseSnake(const snake_t* snake, int reprintwall);
+
+state_t printPause(const snake_t* snake, const food_t* food, const game_settings_t* settings);
 
 // Erases the board and prints the game over message
 void printGameOver(void);

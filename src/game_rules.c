@@ -34,7 +34,7 @@ void runGame(game_settings_t* settings, gameinfo_t* game_info) {
 
         // Play until death
         result = play(&snake, settings, &(game_info->score), lives);
-        if(result < 0) break;
+        if(result < 0 || result == GAMEOVER) break;
         printHeader(game_info->score, --lives);
         
         
@@ -67,17 +67,18 @@ int play(snake_t* snake, const game_settings_t* settings, int* score, int lives)
     food_t food = newFood(snake->head, settings->width, settings->height);
     input_t input = K_NONE;
     int ans;
-    
+    state_t gamestate = PLAYING;
 
     printSnake(snake, &food);
     
-    while(1) {
+    while(gamestate == PLAYING) {
     
         // Wait one gametick and get input
         input = getInput(settings->speed);
         
         // Erase tail on the screen before deleting it on memory
         eraseInBoard(snake->tail->x, snake->tail->y);
+        eraseInBoard(food.x, food.y);
 
         // First update
         switch(input) {
@@ -91,7 +92,8 @@ int play(snake_t* snake, const game_settings_t* settings, int* score, int lives)
                 update(snake, snake->head->orient);
                 break;
             case K_PAUSE:
-                return GAMEOVER;
+                gamestate = printPause(snake, &food, settings);
+                continue;
         }
         
         // Then check if food has to change and snake has to grow, or to die
@@ -112,7 +114,7 @@ int play(snake_t* snake, const game_settings_t* settings, int* score, int lives)
                             eraseSnake(snake, ans);
                             eraseInBoard(food.x, food.y);
             //
-            return GAMEOVER;
+            return EXIT;
             
         }
 

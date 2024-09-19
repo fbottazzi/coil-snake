@@ -6,8 +6,10 @@
 typedef struct {
     int x;
     int y;
-    // clock_t time;
+    int time;
 } food_t;
+
+#define TIME_MAX 20
 
 // Generates new random food position outside of the snake
 food_t newFood(const part_t* phead, int width, int height);

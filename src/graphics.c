@@ -3,7 +3,6 @@
 #include "consts.h" // Error codes
 
 #include "graphics.h" // Includes body, food & ncurses
-#include "progstates.h"
 
 /* ================ */
 /* Constants & globals */
@@ -81,6 +80,7 @@ int printGameInit(int width, int height) {
     }
 
     move(Y_0+height+1, X_0-1); // For testing purposes
+    refresh();
     return 0;
 
 }
@@ -133,6 +133,56 @@ void printInBoard(const part_t* head, const part_t* tail, const food_t* food) {
 
 }
 
+state_t printPause(const snake_t* snake, const food_t* food, const game_settings_t* settings) {
+
+    clear();
+
+    int c;
+    state_t ans = EXIT;
+
+    mvprintw(Y_0, X_0,
+" _______  _______  __   __  _______  _______ \n"
+"|       ||   _   ||  | |  ||       ||       |\n"
+"|    _  ||  |_|  ||  | |  ||  _____||    ___|\n"
+"|   |_| ||       ||  |_|  || |_____ |   |___ \n"
+"|    ___||       ||       ||_____  ||    ___|\n"
+"|   |    |   _   ||       | _____| ||   |___ \n"
+"|___|    |__| |__||_______||_______||_______|\n"
+        "Press 'p' to continue, \n"
+        "press 'Q' to quit the game. \n"
+    );
+    //fuente: https://patorjk.com/software/taag/#p=testall&f=Big%20Money-nw&t=PAUSE
+
+    refresh();
+
+    napms(DELAY_MS_FOR_CURSSET_ENABLE);
+
+    while(ans == EXIT) {
+        c = getch();
+        
+        switch(c) {
+            case 'Q':
+            case 'q':
+                return GAMEOVER;
+            case 'P':
+            case 'p':
+                ans = PLAYING;
+                break;
+            default:
+                ans = EXIT;
+                break;
+        }
+    }
+    flushinp();
+
+    clear();
+
+    printSnake(snake, food);
+    printGameInit(settings->width, settings->height);
+
+    refresh();
+    return ans;
+}
 
 void eraseSnake(const snake_t* snake, int reprintwall) {
     
