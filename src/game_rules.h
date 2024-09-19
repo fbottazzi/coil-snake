@@ -8,22 +8,6 @@
 
 
 
-/* ======================= */
-/* Macros & typedefs */
-
-typedef struct {
-    int width;
-    int height;
-    int _timeout;
-    int lives;
-
-    int init_x;
-    int init_y;
-    direction_t init_orient;
-    unsigned init_length;
-
-} game_settings_t;
-
 // Boolean comparison that returns 1 if the head is inside the border
 #define WALLCOLLISION(phead, width, height) ( \
     (phead)->x < 0 || (phead)->x >= (width) || \

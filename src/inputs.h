@@ -6,7 +6,7 @@
 #include "game_rules.h"
 
 #define MAX_DIG 3
-#define GETNAME_DELAY_MS 5000
+#define GETNAME_DELAY_MS 2000
 
 
 typedef enum {

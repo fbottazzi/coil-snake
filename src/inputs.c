@@ -52,6 +52,47 @@ void getNameandLength (char* name,game_settings_t* game_settings)
 
 input_t getInput(int _timeout) {
     
+    
+    flushinp();
+    input_t ans = K_NONE;
+
+    for (int i = 0; i < _timeout && ans == K_NONE; i++)
+    {
+        napms(20);
+        int c = getch();
+        switch( TOUPPER(c) ) {
+            case 'W':
+            case KEY_UP:
+                ans = K_UP;
+                break;        
+            case KEY_LEFT:
+            case 'A':
+                ans = K_LEFT;
+                break;
+            case KEY_RIGHT:
+            case 'D':
+                ans = K_RIGHT;
+                break;
+            case KEY_DOWN:
+            case 'S':
+                ans = K_DOWN;
+                break;
+            case 'Q':
+                ans = K_PAUSE;
+                break;
+            default:
+                ans = K_NONE;
+                break;
+        }
+    }
+    
+    return ans;
+}
+
+/*
+input_t getInput(int _timeout) {
+    
+
     flushinp();
     napms(_timeout);
     int c = getch();
@@ -82,6 +123,7 @@ input_t getInput(int _timeout) {
     }
     return ans;
 }
+*/
 
 void getLength(game_settings_t* thisGame)
 {

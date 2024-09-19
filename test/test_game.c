@@ -9,7 +9,7 @@
 #include "../src/game_info.h"
 #include "../src/inputs.h"
 
-#define TIMEOUT 300
+#define TIMEOUT 15
 
 
 int main(void) {

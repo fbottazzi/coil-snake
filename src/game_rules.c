@@ -1,11 +1,14 @@
 #include <ncurses.h>
-#include <time.h>
 #include <stdlib.h>
 #include "consts.h"
 #include "graphics.h"
 #include "inputs.h"
 
 #include "game_rules.h"
+
+#define RANDINT(a, b) ( (a) + rand() % ( (b)-(a) ) )
+
+
 
 void runGame(game_settings_t* settings, gameinfo_t* game_info) {
 
@@ -95,8 +98,10 @@ int play(snake_t* snake, const game_settings_t* settings, int* score, int lives)
         ans = checkFood(&food, snake, settings->width, settings->height); // checkFood updates the snake and food if necesary        
         if(ans < 0) {
             return ans;
+        } else if(ans == 1) {
+            (*score) ++;
         }
-
+        
         // Check for collision
         ans = WALLCOLLISION(snake->head, settings->width, settings->height) ? 1 : 0;
         if( ans || isInsideSnake(snake->head->x, snake->head->y, snake->head->p2next) ) {
@@ -107,7 +112,6 @@ int play(snake_t* snake, const game_settings_t* settings, int* score, int lives)
                             eraseSnake(snake, ans);
                             eraseInBoard(food.x, food.y);
             //
-            *score += snake->size;
             return GAMEOVER;
             
         }
@@ -115,15 +119,13 @@ int play(snake_t* snake, const game_settings_t* settings, int* score, int lives)
         // Print head, new food &, if snake grew, re-print tail
         // No need on erasing old food because if it was eaten, it gets overwritten by the head
         printInBoard(snake->head, snake->tail, &food);
-        printHeader(*score + snake->size, lives);
+        printHeader(*score, lives);
         
         refresh();
     }
 
     return PAUSE;
 }
-
-#define RANDINT(a, b) ( (a) + rand() % ( (b)-(a) ) )
 
 void getRandPos(game_settings_t* settings)
 {
