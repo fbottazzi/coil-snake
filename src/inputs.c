@@ -81,24 +81,37 @@ input_t getInput(int _timeout) {
     return ans;
 }
 
-void getLength(game_settings_t* thisgame)
+void getLength(game_settings_t* thisGame)
 {
-    char num[MAX_LEN];
-    char c;
+    bool flag = 0;
     printf("please input initial length(max %d digits) \n",MAX_LEN);
     int i;
-    for(i=0;(c=getchar())!='\n' && i<MAX_LEN;i++)
+    char num[MAX_LEN];
+    char c;
+    while(!flag)
     {
-        num[i]=c;
+        
+        
+        for(i=0;(c=getchar())!='\n' && i<MAX_LEN;i++)
+        {
+            num[i]=c;
 
-    }
+        }
 
-    thisgame->init_length = atoi(num);
-    if(thisgame->init_length>RECO_LEN)
-    {
-        printf("Snake way too long, not recommended\n");
+        thisGame->init_length = atoi(num);
+        if(thisGame->init_length> thisGame->height || thisGame->init_length > thisGame->width)
+        {
+            printf("Snake way too long, try again\n");
+        }
+        else{
+            flag =1;
+        }
     }
-    
    
+}
+
+void getBoardSize(game_settings_t* thisGame)
+{
+    
 }
 
