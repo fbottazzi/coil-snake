@@ -44,14 +44,6 @@ int main(void)
         }
 
     }
-    // Be able to select some settings
-    customizeSettings(&settings);
 
-    // Play with the selected settings and save the results in "game_information"
-    runGame(&settings, &game_information);
-
-    // Save game in history log
-    storeGame(&game_information);
-    
     return 0;
 }

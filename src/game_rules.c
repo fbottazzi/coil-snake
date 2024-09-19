@@ -6,7 +6,7 @@
 
 #include "game_rules.h"
 
-#define RANDINT(a, b) ( (a) + rand() % ( (b)-(a) ) )
+#define RANDINT(a, b) ( (a) + rand() % ( 1 + (b)-(a) ) )
 
 
 
