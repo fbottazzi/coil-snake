@@ -6,7 +6,9 @@
 
 #define TOUPPER(c) ('a'<=(c) && (c)<='z' ? (c)+'A'-'a' : (c) )
 
-void getName (char* name)
+
+
+void getNameandLength (char* name,game_settings_t* game_settings)
 {
     system("clear");
     printf("Please input your name (maximum %d characters):\n", NAME_MAX);
@@ -23,7 +25,9 @@ void getName (char* name)
     // Check correct input and print initialization message
     if(c != '\n') {
         printf("Too large username, starting the game with the name %s ...\n", name);
+        getLength(game_settings);
     } else {
+        getLength(game_settings);
         printf("Welcome %s! Starting game ...\n", name);
     }
 
@@ -76,3 +80,25 @@ input_t getInput(int _timeout) {
     }
     return ans;
 }
+
+void getLength(game_settings_t* thisgame)
+{
+    char num[MAX_LEN];
+    char c;
+    printf("please input initial length(max %d digits) \n",MAX_LEN);
+    int i;
+    for(i=0;(c=getchar())!='\n' && i<MAX_LEN;i++)
+    {
+        num[i]=c;
+
+    }
+
+    thisgame->init_length = atoi(num);
+    if(thisgame->init_length>RECO_LEN)
+    {
+        printf("Snake way too long, not recommended\n");
+    }
+    
+   
+}
+

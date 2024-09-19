@@ -9,6 +9,8 @@
 
 void runGame(const game_settings_t* settings, gameinfo_t* game_info) {
 
+    
+
     // Initialization of ncurses, some counters and game board
     initGraphics(settings->_timeout);
     int result = 0, lives = settings->lives;

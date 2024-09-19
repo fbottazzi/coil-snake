@@ -23,7 +23,9 @@ int main(void) {
     };
     
     gameinfo_t game_info;
-    getName(game_info.name);
+    getNameandLength(game_info.name,&settings);
+
+    
     
     runGame(&settings, &game_info);
 
