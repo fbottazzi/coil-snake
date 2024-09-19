@@ -7,9 +7,7 @@
 
 #include "game_rules.h"
 
-void runGame(const game_settings_t* settings, gameinfo_t* game_info) {
-
-    
+void runGame(game_settings_t* settings, gameinfo_t* game_info) {
 
     // Initialization of ncurses, some counters and game board
     initGraphics(settings->_timeout);
@@ -26,7 +24,7 @@ void runGame(const game_settings_t* settings, gameinfo_t* game_info) {
     while(lives > 0) {
 
         // Initialization of values
-        
+        getRandPos(settings);
         snake_t snake;
         result = initSnake(&snake, settings->init_x, settings->init_y, settings->init_orient, settings->init_length);
         if(result < 0) break;
@@ -125,10 +123,31 @@ int play(snake_t* snake, const game_settings_t* settings, int* score, int lives)
     return PAUSE;
 }
 
+#define RANDINT(a, b) ( (a) + rand() % ( (b)-(a) ) )
 
 void getRandPos(game_settings_t* settings)
 {
-    srand(time(NULL));
-    settings->init_x = rand()%B_ROW;
-    settings->init_y = rand()%B_COL;
+    static const direction_t dirs[] = {N, E, W, S};
+    
+    settings->init_orient = dirs[ RANDINT(0, 3) ];
+
+    switch(settings->init_orient) {
+        case N:
+            settings->init_x = RANDINT(0, settings->width - 1); // every possible row
+            settings->init_y = RANDINT(1, settings->height - settings->init_length); // Tail must be at most in y = width-1
+            break;
+        case S:
+            settings->init_x = RANDINT(0, settings->width - 1); // every possible row
+            settings->init_y = RANDINT(settings->init_length - 1, settings->height - 2); // Tail must be at least in y = 0
+            break;
+        case E:
+            settings->init_x = RANDINT(settings->init_length - 1, settings->width - 2); // every possible row
+            settings->init_y = RANDINT(0, settings->height - 1); // Tail must be at least in y = 0
+            break;
+        case W:
+            settings->init_x = RANDINT(1, settings->width - settings->init_length); // every possible row
+            settings->init_y = RANDINT(0, settings->height - 1); // Tail must be at most in y = width-1
+            break;
+    }
+
 }
