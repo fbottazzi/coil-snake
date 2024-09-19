@@ -25,8 +25,10 @@ void getNameandLength (char* name,game_settings_t* game_settings)
     // Check correct input and print initialization message
     if(c != '\n') {
         printf("Too large username, starting the game with the name %s ...\n", name);
+        getBoardSize(game_settings);
         getLength(game_settings);
     } else {
+        getBoardSize(game_settings);
         getLength(game_settings);
         printf("Welcome %s! Starting game ...\n", name);
     }
@@ -84,21 +86,12 @@ input_t getInput(int _timeout) {
 void getLength(game_settings_t* thisGame)
 {
     bool flag = 0;
-    printf("please input initial length(max %d digits) \n",MAX_LEN);
-    int i;
-    char num[MAX_LEN];
-    char c;
+    printf("please input initial length(max %d digits) \n",MAX_DIG);
+    
     while(!flag)
     {
-        
-        
-        for(i=0;(c=getchar())!='\n' && i<MAX_LEN;i++)
-        {
-            num[i]=c;
-
-        }
-
-        thisGame->init_length = atoi(num);
+        thisGame->init_length = getInt();
+        //checks if the snake enters in the boards
         if(thisGame->init_length> thisGame->height || thisGame->init_length > thisGame->width)
         {
             printf("Snake way too long, try again\n");
@@ -112,6 +105,29 @@ void getLength(game_settings_t* thisGame)
 
 void getBoardSize(game_settings_t* thisGame)
 {
-    
+    printf("Please Input board Height(max digits %d)",MAX_DIG);
+    thisGame->height = getInt();
+
+    printf("Please Input board Width(max digits %d)",MAX_DIG);
+    thisGame->width = getInt();
+
+} 
+
+
+//gets input from std and turns it into an int
+int getInt(void)
+{
+    int i;
+    char num[MAX_DIG];
+    char c;
+    for(i=0;(c=getchar())!='\n' && i<MAX_DIG;i++)
+    {
+        num[i]=c;
+
+    }
+    return atoi(num);
+
+
 }
+
 

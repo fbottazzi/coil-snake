@@ -5,9 +5,9 @@
 #include "consts.h"
 #include "game_rules.h"
 
-#define MAX_LEN 3
+#define MAX_DIG 3
 #define GETNAME_DELAY_MS 5000
-#define RECO_LEN 20
+
 
 typedef enum {
     K_UP = N,
@@ -24,6 +24,8 @@ typedef enum {
 
 void getNameandLength (char* name,game_settings_t* game_settings);
 void getLength(game_settings_t* thisgame);
+int getInt(void);
+void getBoardSize(game_settings_t* thisGame);
 
 // Checks for key input, returns NONE if
 // neither the WASD/arrow keys nor the pause key have been pressed
