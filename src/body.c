@@ -17,6 +17,7 @@ int initSnake(snake_t* snake, int init_x, int init_y, direction_t init_orient, u
     snake->head-> p2prev = snake->head->p2next = NULL;
 
     // Add init_length-1 nodes
+    snake->time_since_growth = 0;
     snake->size = 1;
     for (i = 0; i < init_length-1; i++)
     {
@@ -74,6 +75,7 @@ void update(snake_t* snake, direction_t dir) {
 
     snake->head = new_head;
     snake->tail = new_tail;
+    snake->time_since_growth ++;
 
 }
 

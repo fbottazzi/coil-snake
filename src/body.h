@@ -22,6 +22,7 @@ typedef struct {
     part_t* head;
     part_t* tail;
     int size;
+    int time_since_growth;
 } snake_t;
 
 

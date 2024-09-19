@@ -9,8 +9,6 @@
 
 #define Y_0 8 // Min value: 2
 #define X_0 2
-#define SCORE_WIDTH 6
-#define MAX_SCORE 999999
 
 #define DELAY_MS_AFTER_SNAKE_PRINT 800
 #define DELAY_MS_FOR_CURSSET_ENABLE 500

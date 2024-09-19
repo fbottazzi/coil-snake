@@ -5,6 +5,9 @@
 #include "body.h"
 #include "progstates.h"
 
+#define SCORE_WIDTH 5
+#define MAX_SCORE 99999
+
 // Initializes and configs the graphics library (ncurses)
 void initGraphics(void);
 

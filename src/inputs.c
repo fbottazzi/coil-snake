@@ -13,7 +13,7 @@
 #define MAX_DIG 4
 #define MAX_SPEED ( sizeof(ticks_per_gametick) / sizeof(ticks_per_gametick[0]) )
 
-const int ticks_per_gametick[] = {30, 40, 50};
+const int ticks_per_gametick[] = {100, 50, 30, 40};
 
 void getName(char* name)
 {

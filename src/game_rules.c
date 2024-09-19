@@ -101,7 +101,9 @@ int play(snake_t* snake, const game_settings_t* settings, int* score, int lives)
         if(ans < 0) {
             return ans;
         } else if(ans == 1) {
-            (*score) ++;
+            *score += snake->size * snake->time_since_growth;
+            if(*score >= MAX_SCORE) *score = MAX_SCORE;
+            snake->time_since_growth = 0;
         }
         
         // Check for collision
