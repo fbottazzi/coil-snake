@@ -37,4 +37,6 @@ void runGame(const game_settings_t* settings, gameinfo_t* game_info);
 
 int play(snake_t* snake, const game_settings_t* settings, int* score, int lives);
 
+void getRandPos(game_settings_t* settings);
+
 #endif // GAME_RULES_H

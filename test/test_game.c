@@ -25,6 +25,7 @@ int main(void) {
     gameinfo_t game_info;
     getNameandLength(game_info.name,&settings);
 
+    getRandPos(&settings);
     
     
     runGame(&settings, &game_info);

@@ -124,3 +124,11 @@ int play(snake_t* snake, const game_settings_t* settings, int* score, int lives)
 
     return PAUSE;
 }
+
+
+void getRandPos(game_settings_t* settings)
+{
+    srand(time(NULL));
+    settings->init_x = rand()%B_ROW;
+    settings->init_y = rand()%B_COL;
+}
