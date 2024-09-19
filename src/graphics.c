@@ -46,8 +46,8 @@ const char* symbols[] = {
 /* ========= */
 /* Functions */
 
-void initGraphics(int _timeout) {
-    _timeout++;
+void initGraphics(void) {
+    
     initscr();
     noecho();
     keypad(stdscr, TRUE);
@@ -159,13 +159,18 @@ void printGameOver(void) {
     "\n\n\n"
     "Press any key to go back to main menu "
     );
-
     refresh();
+
     napms(DELAY_MS_FOR_CURSSET_ENABLE);
+
+    nodelay(stdscr, TRUE);
+    nocbreak();
     curs_set(TRUE);
-    timeout(-1);
+    flushinp();
+
     getch();
     flushinp();
+    
     clear();
     return;
     // Fuente https://patorjk.com/software/taag/#p=testall&f=Graffiti&t=GAME%20OVER

@@ -5,7 +5,7 @@
 #include "body.h"
 
 // Initializes and configs the graphics library (ncurses)
-void initGraphics(int _timeout);
+void initGraphics(void);
 
 // Prints the walls & the snake
 // On NULL pointers or negative width/height, returns INPUT_ERR, else returns 0

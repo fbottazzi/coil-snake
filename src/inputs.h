@@ -5,7 +5,14 @@
 #include "consts.h"
 #include "game_rules.h"
 
-#define MAX_DIG 3
+#define MIN_INIT_LEN 3
+// Upper bound to init_length: board_size -1
+
+#define MIN_BOARD_SIZE 5
+#define MAX_BOARD_SIZE 60
+#define MAX_BOARD_SIZE_DIGS 2
+
+
 #define GETNAME_DELAY_MS 2000
 
 
@@ -22,13 +29,16 @@ typedef enum {
 
 
 
-void getNameandLength (char* name,game_settings_t* game_settings);
-void getLength(game_settings_t* thisgame);
-int getInt(void);
-void getBoardSize(game_settings_t* thisGame);
+void getName(char* name);
+// void getLength(game_settings_t* settings);
+int getInt(int max_dig);
+// void getBoardSize(game_settings_t* settings);
+void getValue(int* value, int min, int max, const char name[]);
+void customizeSettings(game_settings_t* settings);
+
 
 // Checks for key input, returns NONE if
 // neither the WASD/arrow keys nor the pause key have been pressed
-input_t getInput(int _timeout);
+input_t getInput(int speed);
 
 #endif // INPUTS_H

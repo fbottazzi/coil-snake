@@ -13,7 +13,7 @@
 void runGame(game_settings_t* settings, gameinfo_t* game_info) {
 
     // Initialization of ncurses, some counters and game board
-    initGraphics(settings->_timeout);
+    initGraphics();
     int result = 0, lives = settings->lives;
     game_info->score = 0;
 
@@ -73,8 +73,8 @@ int play(snake_t* snake, const game_settings_t* settings, int* score, int lives)
     
     while(1) {
     
-        // Wait one gametick (settings->_timeout miliseconds) and get input
-        input = getInput(settings->_timeout);
+        // Wait one gametick and get input
+        input = getInput(settings->speed);
         
         // Erase tail on the screen before deleting it on memory
         eraseInBoard(snake->tail->x, snake->tail->y);

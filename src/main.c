@@ -1,9 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
+// Backend
 #include "game_rules.h"
-#include "inputs.h"
+#include "game_info.h"
 #include "progstates.h"
-#include "consts.h"
+// Frontend
+#include "inputs.h"
 
 #include <stdio.h>
 
@@ -11,21 +13,21 @@
 
 int main(void)
 {
-    game_settings_t settings;
+    game_settings_t settings = DEFAULT_SETTINGS;
     gameinfo_t game_information;
-    state_t gamestate = MENU_INIT;
+    //state_t gamestate = MENU_INIT;
 
-    while(gamestate != EXIT) {
+    // At initialization: get the username
+    getName(game_information.name);
 
-        switch(gamestate) {
-            case MENU_INIT:
-                getNameandLength(game_information.name);
-                // gamestate = getNextMenu();
-                break;
-            case PLAYING:
-                runGame(&settings, &game_information);
-        }
+    // Be able to select some settings
+    customizeSettings(&settings);
 
-    }
+    // Play with the selected settings and save the results in "game_information"
+    runGame(&settings, &game_information);
+
+    // Save game in history log
+    storeGame(&game_information);
+    
     return 0;
 }
