@@ -91,7 +91,7 @@ int play(snake_t* snake, const game_settings_t* settings, int* score, int lives)
                 update(snake, snake->head->orient);
                 break;
             case K_PAUSE:
-                return PAUSE;
+                return GAMEOVER;
         }
         
         // Then check if food has to change and snake has to grow, or to die
@@ -124,7 +124,7 @@ int play(snake_t* snake, const game_settings_t* settings, int* score, int lives)
         refresh();
     }
 
-    return PAUSE;
+    return GAMEOVER;
 }
 
 void getRandPos(game_settings_t* settings)

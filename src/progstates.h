@@ -5,7 +5,6 @@
 
 typedef enum {
     PLAYING,
-    PAUSE,
     GAMEOVER,
     MENU_INIT,
     MENU_SETTINGS,
@@ -27,6 +26,6 @@ typedef struct {
 
 } game_settings_t;
 
-#define DEFAULT_SETTINGS {.width=20, .height=20, .speed=1, .lives=3, .init_x=10, .init_y=10, .init_orient=N, init_length=3}
+#define DEFAULT_SETTINGS {.width=20, .height=20, .speed=1, .lives=3, .init_x=10, .init_y=10, .init_orient=N, .init_length=3}
 
 #endif // PROGSTATES_H

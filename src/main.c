@@ -15,11 +15,35 @@ int main(void)
 {
     game_settings_t settings = DEFAULT_SETTINGS;
     gameinfo_t game_information;
-    //state_t gamestate = MENU_INIT;
+    state_t gamestate = MENU_INIT;
 
     // At initialization: get the username
     getName(game_information.name);
 
+    while(gamestate != EXIT) {
+        
+        switch(gamestate) {
+            case MENU_INIT:
+                gamestate = menuInit();
+                break;
+            case PLAYING:
+                runGame(&settings, &game_information);
+                gamestate = GAMEOVER;
+                break;
+            case MENU_SETTINGS:
+                customizeSettings(&settings);
+                gamestate = MENU_INIT;
+                break;
+            case GAMEOVER:
+                storeGame(&game_information);
+                gamestate = MENU_INIT;
+                break;
+            case EXIT:
+                system("clear");
+                break;
+        }
+
+    }
     // Be able to select some settings
     customizeSettings(&settings);
 

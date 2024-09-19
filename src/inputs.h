@@ -3,7 +3,7 @@
 
 #include "body.h"
 #include "consts.h"
-#include "game_rules.h"
+#include "progstates.h"
 
 #define MIN_INIT_LEN 3
 // Upper bound to init_length: board_size -1
@@ -36,7 +36,7 @@ int getInt(int max_dig);
 void getValue(int* value, int min, int max, const char name[]);
 void customizeSettings(game_settings_t* settings);
 
-
+state_t menuInit(void);
 // Checks for key input, returns NONE if
 // neither the WASD/arrow keys nor the pause key have been pressed
 input_t getInput(int speed);

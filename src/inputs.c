@@ -89,6 +89,36 @@ input_t getInput(int speed) {
     return ans;
 }
 
+state_t menuInit(void) {
+    while(1) {
+        system("clear");
+        printf(""
+            "  _____ ____    ____  __  _    ___ \n"
+            " / ___/|    \\  /    ||  |/ ]  /  _]\n"
+            "(   \\_ |  _  ||  o  ||  ' /  /  [_ \n"
+            " \\__  ||  |  ||     ||    \\ |    _]\n"
+            " /  \\ ||  |  ||  _  ||     \\|   [_ \n"
+            " \\    ||  |  ||  |  ||  .  ||     |\n"
+            "  \\___||__|__||__|__||__|\\_||_____|\n"
+            "\n\n"
+        );
+        printf("Welcome. Insert 'p' to play, 's' to customize the settings and 'q' to quit:\n");
+        int c = getchar(), aux = c;
+        while(aux != '\n' && aux != EOF) aux = getchar(); // Clean buffer
+        system("clear");
+        switch(TOUPPER(c)) {
+            case 'Q':
+                return EXIT;
+            case 'P':
+                return PLAYING;
+            case 'S':
+                return MENU_SETTINGS;
+        }
+
+    }
+
+}
+
 void customizeSettings(game_settings_t* settings) {
     int flag = 0;
     system("clear");
@@ -133,7 +163,6 @@ void customizeSettings(game_settings_t* settings) {
     return;
 
 }
-
 
 void getValue(int* value, int min, int max, const char name[]) {
 
