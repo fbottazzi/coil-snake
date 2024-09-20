@@ -4,6 +4,9 @@
 #include <stdlib.h>
 #include "body.h"
 #include "consts.h"
+#include <stdio.h>
+
+#define HISTORY_LOG_ROUTE "./build/scores"
 
 /* ==================== */
 /* Typedefs & Constants */

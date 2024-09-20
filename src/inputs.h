@@ -28,12 +28,16 @@ typedef enum {
 } input_t;
 
 
-
+//gets username
 void getName(char* name);
-// void getLength(game_settings_t* settings);
+
+//gets an std input and turns it into an int
 int getInt(int max_dig);
-// void getBoardSize(game_settings_t* settings);
+
+
 void getValue(int* value, int min, int max, const char name[]);
+
+
 void customizeSettings(game_settings_t* settings);
 
 state_t menuInit(void);

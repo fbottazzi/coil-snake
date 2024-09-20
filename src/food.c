@@ -7,7 +7,7 @@
 /* Functions  */
 
 food_t newFood(const part_t* phead, int width, int height) {
-
+    //asigns the food a random coordinate and checks if it spawned inside the snake or not
     food_t food;
     do {
         food.x = rand() % width;
