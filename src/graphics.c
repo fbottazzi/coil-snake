@@ -154,7 +154,7 @@ state_t printPause(const snake_t* snake, const food_t* food, const game_settings
     refresh();
 
     napms(DELAY_MS_FOR_CURSSET_ENABLE);
-
+    //waits until q either p are pressed 
     while(ans == EXIT) {
         c = getch();
         
@@ -174,7 +174,8 @@ state_t printPause(const snake_t* snake, const food_t* food, const game_settings
     flushinp();
 
     clear();
-
+    
+    //reprints everything
     printSnake(snake, food);
     printGameInit(settings->width, settings->height);
 

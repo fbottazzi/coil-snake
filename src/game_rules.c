@@ -54,9 +54,9 @@ void runGame(game_settings_t* settings, gameinfo_t* game_info) {
     return;
 }
 
-/* Gametick -> update hasta que:
-   * Presione pausa en un cierto gametick (el juego va a "quedar" en ese gametick) -> devuelve pause
-   * Haya una collision -> devuelve GAMEOVER
+/* Gametick -> update until:
+   * PAUSE is pressed (the gametick is store) -> returns pause
+   * There is a collition -> Returns GAMEOVER
 */
 int play(snake_t* snake, const game_settings_t* settings, int* score, int lives) {
 
