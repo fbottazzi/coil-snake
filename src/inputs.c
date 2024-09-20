@@ -5,15 +5,35 @@
 #include <time.h>
 #include <ncurses.h>
 
-
-#define TOUPPER(c) ('a'<=(c) && (c)<='z' ? (c)+'A'-'a' : (c) )
-#define MIN(a,b) ( (a) < (b) ? (a) : (b) )
+/* ========= */
+/* Constants */
 
 #define TICK_MS 10
 #define MAX_DIG 4
 #define MAX_SPEED ( sizeof(ticks_per_gametick) / sizeof(ticks_per_gametick[0]) )
 
 const int ticks_per_gametick[] = {100, 50, 30, 40};
+
+
+/* ===================== */
+/* Macros & protoypes */
+
+#define TOUPPER(c) ('a'<=(c) && (c)<='z' ? (c)+'A'-'a' : (c) )
+#define MIN(a,b) ( (a) < (b) ? (a) : (b) )
+
+// Gets input from std and turns it into an int
+// Returns the int, 0 if 'q' was pressed or INPUT_ERR on incorrect input format
+// The stdin buffer doesn't get any extra thrash
+int getInt(int max_dig);
+
+// Displays a generic menu that lets the user customize
+// the value of an int variable *value, between min and ma
+// name is the description of the variable
+void getValue(int* value, int min, int max, const char name[]);
+
+
+/* ========= */
+/* Functions */
 
 void getName(char* name)
 {
@@ -49,7 +69,6 @@ void getName(char* name)
     return;
 
 }
-
 
 input_t getInput(int speed) {
     
@@ -194,10 +213,6 @@ void getValue(int* value, int min, int max, const char name[]) {
     return;
 }
 
-
-// Gets input from std and turns it into an int
-// Returns the int, 0 if 'q' was pressed or INPUT_ERR on incorrect input format
-// The stdin buffer doesn't get any extra thrash
 int getInt(int max)
 {
     int i, num = 0;
@@ -214,7 +229,3 @@ int getInt(int max)
     return (num == 0) ? INPUT_ERR : num;
 
 }
-
-
-
-

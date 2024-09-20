@@ -20,6 +20,7 @@ int main(void)
     // At initialization: get the username
     getName(game_information.name);
 
+    // Mini-finite state machine to control the program flow and menus
     while(gamestate != EXIT) {
         
         switch(gamestate) {
@@ -36,8 +37,9 @@ int main(void)
                 break;
             case GAMEOVER:
                 if( storeGame(&game_information) < 0) {
-                    printf("ERROR");
-                    getchar();
+                    printf("Error at storing the file. Be sure to be executing the program in the right folder\n");
+                    while( getchar() != '\n') ;
+                    system("clear");
                 }
                 gamestate = MENU_INIT;
                 break;

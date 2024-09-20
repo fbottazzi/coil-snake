@@ -46,11 +46,11 @@ const char* symbols[] = {
 void initGraphics(void) {
     
     initscr();
-    noecho();
+    noecho(); // Don't echo characters written
     keypad(stdscr, TRUE);
-    cbreak();
-    curs_set(FALSE);
-    nodelay(stdscr, TRUE);
+    cbreak(); // Don't wait a line break to receive input characters
+    curs_set(FALSE); // Don't show the cursor
+    nodelay(stdscr, TRUE); // Non-blocking getch()
 
 }
 
@@ -231,6 +231,7 @@ void printErrorMessage(int error_code) {
     refresh();
     
     napms(DELAY_MS_FOR_CURSSET_ENABLE);
+    // Blocking getch
     curs_set(TRUE);
     timeout(-1);
     getch();

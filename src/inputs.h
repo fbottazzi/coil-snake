@@ -28,15 +28,8 @@ typedef enum {
 } input_t;
 
 
-//gets username
+// Saves username. If it's too long, saves the first NAME_MAX characters
 void getName(char* name);
-
-//gets an std input and turns it into an int
-int getInt(int max_dig);
-
-
-void getValue(int* value, int min, int max, const char name[]);
-
 
 void customizeSettings(game_settings_t* settings);
 
