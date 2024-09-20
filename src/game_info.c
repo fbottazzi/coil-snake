@@ -3,9 +3,7 @@
 
 #include <stdio.h>
 
-#define HISTORY_LOG_ROUTE "./build/scores"
 
-//still have to make struct with data and the storage in a file
 
 int storeGame(const gameinfo_t* this_game)
 {

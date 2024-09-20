@@ -6,9 +6,20 @@
 
 #include "game_rules.h"
 
+/* ====================================== */
+/* Macros & private functions' prototypes */
+
 #define RANDINT(a, b) ( (a) + rand() % ( 1 + (b)-(a) ) )
 
+// Receives some snake and plays until collision (death).
+// Has pause functionality
+// Increments the score and returns either HEAP_ERR or INPUT_ERR on failure,
+// or EXIT on collision or GAMEOVER if user quitted
+int play(snake_t* snake, const game_settings_t* settings, int* score, int lives);
 
+
+/* ========= */
+/* Functions */
 
 void runGame(game_settings_t* settings, gameinfo_t* game_info) {
 
@@ -17,6 +28,7 @@ void runGame(game_settings_t* settings, gameinfo_t* game_info) {
     int result = 0, lives = settings->lives;
     game_info->score = 0;
 
+    // Print board
     result = printGameInit(settings->width, settings->height);
     if(result < 0) {
         printErrorMessage(-result);
@@ -34,11 +46,10 @@ void runGame(game_settings_t* settings, gameinfo_t* game_info) {
 
         // Play until death
         result = play(&snake, settings, &(game_info->score), lives);
-        if(result < 0 || result == GAMEOVER) break;
-        printHeader(game_info->score, --lives);
-        
-        
         freeAll(snake.head);
+        if(result < 0 || result == GAMEOVER) break;
+
+        printHeader(game_info->score, --lives);
         
     }
 
@@ -54,10 +65,6 @@ void runGame(game_settings_t* settings, gameinfo_t* game_info) {
     return;
 }
 
-/* Gametick -> update hasta que:
-   * Presione pausa en un cierto gametick (el juego va a "quedar" en ese gametick) -> devuelve pause
-   * Haya una collision -> devuelve GAMEOVER
-*/
 int play(snake_t* snake, const game_settings_t* settings, int* score, int lives) {
 
     if(snake == NULL || settings == NULL || score == NULL) {
@@ -100,7 +107,7 @@ int play(snake_t* snake, const game_settings_t* settings, int* score, int lives)
         ans = checkFood(&food, snake, settings->width, settings->height); // checkFood updates the snake and food if necesary        
         if(ans < 0) {
             return ans;
-        } else if(ans == 1) {
+º        } else if(ans == 1) {
             *score += snake->size * snake->time_since_growth;
             if(*score >= MAX_SCORE) *score = MAX_SCORE;
             snake->time_since_growth = 0;

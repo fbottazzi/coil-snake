@@ -3,6 +3,9 @@
 #include "food.h"
 
 
+/* ========== */
+/* Functions  */
+
 food_t newFood(const part_t* phead, int width, int height) {
 
     food_t food;
@@ -10,6 +13,7 @@ food_t newFood(const part_t* phead, int width, int height) {
         food.x = rand() % width;
         food.y = rand() % height;
     } while( isInsideSnake(food.x, food.y, phead) );
+    // Be sure to generate it outside the snake
 
     food.time = 0;
     return food;
@@ -18,6 +22,7 @@ food_t newFood(const part_t* phead, int width, int height) {
 
 int checkFood(food_t* p2food, snake_t* snake, int width, int height) {
 
+    // Validation of inputs
     if(p2food == NULL || snake == NULL || width < 0 || height < 0)  return INPUT_ERR;
 
     // Check if food was eaten

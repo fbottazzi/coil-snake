@@ -17,10 +17,11 @@
 /* ========= */
 /* Functions */
 
+// Runs the game with the configuration from the structure
+// Saves the information of the match in game_info
 void runGame(game_settings_t* settings, gameinfo_t* game_info);
 
-int play(snake_t* snake, const game_settings_t* settings, int* score, int lives);
-
+// Creates a random initial position (x, y) and random initial direction
 void getRandPos(game_settings_t* settings);
 
 #endif // GAME_RULES_H

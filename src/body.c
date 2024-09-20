@@ -1,7 +1,11 @@
 #include <stdlib.h>
-#include "consts.h"
 
 #include "body.h"
+
+
+
+/* ========= */
+/* Functions */
 
 int initSnake(snake_t* snake, int init_x, int init_y, direction_t init_orient, unsigned int init_length)
 {
@@ -18,7 +22,7 @@ int initSnake(snake_t* snake, int init_x, int init_y, direction_t init_orient, u
 
     // Add init_length-1 nodes
     snake->time_since_growth = 0;
-    snake->size = 1;
+    snake->size = 1; // newNode will increment snake->size after
     for (i = 0; i < init_length-1; i++)
     {
         if( newNode(snake) == HEAP_ERR )    return HEAP_ERR;
@@ -26,6 +30,7 @@ int initSnake(snake_t* snake, int init_x, int init_y, direction_t init_orient, u
     return 0;
 }
 
+// Boolean function: returns 1 if there’s a part of the snake in the position (x, y), 0 if not
 int isInsideSnake(int x, int y, const part_t* phead) {
     const part_t* ptr;
     for(ptr = phead; ptr != NULL; ptr = ptr->p2next) {
@@ -35,6 +40,9 @@ int isInsideSnake(int x, int y, const part_t* phead) {
     return 0;
 }
 
+// Moves the snake one step into the direction dir, not increasing it's size
+// If dir is opposite to the head's orientation, ignores it and updates it forward
+// Doesn't return any error code since it doesn't allocate memory on the heap
 void update(snake_t* snake, direction_t dir) {
 
     if(dir == - snake->head->orient) { // Can't turn 180deg
@@ -49,15 +57,14 @@ void update(snake_t* snake, direction_t dir) {
     new_tail->p2next = NULL;
     snake->head->p2prev = new_head;
 
-    // Values of new_head
+    // Values of the new head
     new_head->orient = dir;
     new_head->p2next = snake->head;
     new_head->p2prev = NULL;
-    
-    // New position
     new_head->x = snake->head->x;
     new_head->y = snake->head->y;
 
+    // Updating new head's position
     switch(dir) {
             case N:
                 (new_head->y)--;
@@ -73,13 +80,17 @@ void update(snake_t* snake, direction_t dir) {
                 break;
     }
 
+    // Save the data in the snake
     snake->head = new_head;
     snake->tail = new_tail;
     snake->time_since_growth ++;
 
 }
 
+// Creates a new part behind the tail and saves it in the snake as the new tail
+// Allocates memory so it returns HEAP_ERR if it fails, 0 if it doesn't
 int newNode(snake_t* snake) {
+    
     // Memory allocation
     part_t* new_tail = malloc(sizeof(part_t));
     if(new_tail == NULL) return HEAP_ERR;
@@ -114,6 +125,7 @@ int newNode(snake_t* snake) {
     return 0;
 }
 
+// Frees the memory used for the snake on the heap
 void freeAll(part_t* phead)
 {
     if(phead == NULL)   return;
