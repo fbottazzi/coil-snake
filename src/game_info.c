@@ -1,10 +1,7 @@
 #include "game_info.h"
 
-<<<<<<< HEAD
 #include <stdio.h>
 
-=======
->>>>>>> c2744821a5a7cba630c202e740408d945c590e10
 
 
 int storeGame(const gameinfo_t* this_game)
