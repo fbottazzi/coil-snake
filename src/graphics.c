@@ -138,7 +138,7 @@ state_t printPause(const snake_t* snake, const food_t* food, const game_settings
     int c;
     state_t ans = EXIT;
 
-    mvprintw(Y_0, X_0,
+    mvprintw(Y_0, 0,
 " _______  _______  __   __  _______  _______ \n"
 "|       ||   _   ||  | |  ||       ||       |\n"
 "|    _  ||  |_|  ||  | |  ||  _____||    ___|\n"
@@ -205,13 +205,13 @@ void printGameOver(void) {
     "|   |_| ||   _   || ||_|| ||   |___   |       | |     | |   |___ |   |  | |\n"
     "|_______||__| |__||_|   |_||_______|  |_______|  |___|  |_______||___|  |_|\n"
     "\n\n\n"
-    "Press any key to go back to main menu "
+    "Press any key to go back to main menu \n"
     );
     refresh();
 
     napms(DELAY_MS_FOR_CURSSET_ENABLE);
 
-    nodelay(stdscr, TRUE);
+    nodelay(stdscr, FALSE);
     nocbreak();
     curs_set(TRUE);
     flushinp();

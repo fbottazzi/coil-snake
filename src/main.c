@@ -35,7 +35,10 @@ int main(void)
                 gamestate = MENU_INIT;
                 break;
             case GAMEOVER:
-                storeGame(&game_information);
+                if( storeGame(&game_information) < 0) {
+                    printf("ERROR");
+                    getchar();
+                }
                 gamestate = MENU_INIT;
                 break;
             case EXIT:
